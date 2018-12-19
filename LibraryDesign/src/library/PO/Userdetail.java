@@ -4,7 +4,7 @@ public class Userdetail {
 	
 	private String userID;		// 用户ID
 	private String userName;	// 真实姓名
-	private String usertypeID;	// 证件ID
+	private String docID;	// 证件ID
 	private String college;		// 学院
 	private String profession;	// 职业/职称
 	private String sex;			// 性别
@@ -23,11 +23,11 @@ public class Userdetail {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getUsertypeID() {
-		return usertypeID;
+	public String getDocID() {
+		return docID;
 	}
-	public void setUsertypeID(String usertypeID) {
-		this.usertypeID = usertypeID;
+	public void setDocID(String docID) {
+		this.docID = docID;
 	}
 	public String getCollege() {
 		return college;

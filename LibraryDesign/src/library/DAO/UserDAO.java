@@ -149,10 +149,11 @@ public class UserDAO extends DAOBase {
 	
 	
 	// 改
-	// 修改指定登陆名的用户的密码
-	// SQL语句写为 private static final String
-	private static final String UPDATE_USER_SQL = "update user set password=? where loginID=?";
+	// 修改指定登陆名的用户的密码 
 	public void updateUser(User user) throws Exception{
+		// SQL语句
+		String UPDATE_USER_SQL = "update user set password=? where loginID=?";
+		
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 		try {
@@ -189,14 +190,16 @@ public class UserDAO extends DAOBase {
 	}		
 	
 	// 查
-	// SQL语句写为 private static final String
-	private static final String GET_USER_SQL = "select * from user where loginID=?";
-	public User getUser(String loginID) throws Exception{
+	public User queryUser(String loginID) throws Exception{
+		
+		//SQL语句
+		String QUERY_USER_SQL = "select * from user where loginID=?";
+		
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 		try {
 			connection = getConnection();
-			pStatement = connection.prepareStatement(GET_USER_SQL);
+			pStatement = connection.prepareStatement(QUERY_USER_SQL);
 			/*
 			 * 需要实现的部分
 			 * prepare a statement to insert a record
