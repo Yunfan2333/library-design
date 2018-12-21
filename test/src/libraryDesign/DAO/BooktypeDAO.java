@@ -1,18 +1,18 @@
 package libraryDesign.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import libraryDesign.DAO.DAOBase;
-import libraryDesign.DAO.DAOException;
 import libraryDesign.PO.Booktype;
 
 public class BooktypeDAO extends DAOBase {
 	
-	// Ôö£¬Ôö¼ÓÒ»¸öÎÄÏ×ÀàÐÍ
-	public void createBooktype(Booktype booktype) throws Exception{
-		// SQLÓï¾ä
-		String CREATE_BOOKTYPE_SQL = "insert into booktye(booktypeID,booktypeName,booktypeInfo) values(?,?,?)";
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public boolean createBooktype(Booktype booktype) throws Exception{
+		// SQLï¿½ï¿½ï¿½
+		String CREATE_BOOKTYPE_SQL = "insert into booktype(booktypeID,booktypeName,booktypeInfo) values(?,?,?)";
 
 		Connection connection = null;
 		PreparedStatement pStatement = null;
@@ -20,27 +20,28 @@ public class BooktypeDAO extends DAOBase {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_BOOKTYPE_SQL);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½ï¿½
 			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
+			 * ï¿½ï¿½Õ²ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½
 			 */	
 			pStatement.setString(1, booktype.getBooktypeID());
 			pStatement.setString(2, booktype.getBooktypeName());
 			pStatement.setString(3, booktype.getBooktypeInfo());
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
 			 */
 			
 			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 * ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½
+			 * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½    executeUpdate()
+			 * ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½    pStatement.close()
 			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-					
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
@@ -51,8 +52,8 @@ public class BooktypeDAO extends DAOBase {
 	}	
 	
 	// É¾
-	public void deleteBooktype(String booktypeID) throws Exception{
-		// SQLÓï¾ä
+	public boolean deleteBooktype(String booktypeID) throws Exception{
+		// SQLï¿½ï¿½ï¿½
 		String DELETE_BOOKTYPE_SQL = "delete from booktype where booktypeID=?";
 
 		Connection connection = null;
@@ -61,26 +62,28 @@ public class BooktypeDAO extends DAOBase {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(DELETE_BOOKTYPE_SQL);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½ï¿½
 			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
+			 * ï¿½ï¿½Õ²ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½
 			 */	
 			pStatement.setString(1, booktypeID);
 
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
 			 */
 			
 			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 * ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½
+			 * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½    executeUpdate()
+			 * ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½    pStatement.close()
 			 */
 			pStatement.executeUpdate();
 			pStatement.close();
+			return true;
 					
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
@@ -91,9 +94,9 @@ public class BooktypeDAO extends DAOBase {
 	}	
 	
 	
-	// ²é
+	// ï¿½ï¿½
 	public Booktype queryBooktype(String booktypeID) throws Exception{
-		// SQLÓï¾ä
+		// SQLï¿½ï¿½ï¿½
 		String QUERY_BOOKTYPE_SQL = "select * from booktype where booktypeID=?";
 
 		Connection connection = null;
@@ -102,28 +105,38 @@ public class BooktypeDAO extends DAOBase {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKTYPE_SQL);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½ï¿½
 			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
+			 * ï¿½ï¿½Õ²ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½
 			 */	
 			pStatement.setString(1, booktypeID);
 
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
 			 */
 			
 			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 * ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½
+			 * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½    executeUpdate()
+			 * ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½    pStatement.close()
 			 */
-			Booktype booktype = (Booktype) pStatement.executeQuery();
+			//Booktype booktype = (Booktype) pStatement.executeQuery();
+			Booktype b =new Booktype();
+			ResultSet rs=pStatement.executeQuery();
+			while(rs.next())
+			{
+				b.setBooktypeID(rs.getString("booktypeID"));
+				b.setBooktypeInfo(rs.getString("booktypeInfo"));
+				b.setBooktypeName(rs.getString("booktypeName"));
+			}
+
 			pStatement.close();
 			
-			return booktype;
+			return b;
 					
 		}catch(Exception e) {
 			e.printStackTrace();
+			return null;
 		}finally {
 			try {
 				connection.close();
@@ -131,7 +144,6 @@ public class BooktypeDAO extends DAOBase {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}
 	
 	

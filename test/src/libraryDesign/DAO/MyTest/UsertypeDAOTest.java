@@ -1,29 +1,41 @@
-package com.itcast.junit4.test
+package libraryDesign.DAO.MyTest;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import libraryDesign.DAO.*;
+import libraryDesign.PO.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
-
-import library.PO.Usertype;
-
-class UsertypeDAOTest {
-
+public class UsertypeDAOTest {
+	/*
 	@Test
-	void testCreateUsertype() {
-		Usertype u=new Usertype();
-		u.setUsertypeID("1");
-		u.setUsertype("本科生");
-		u.setMaxorder(20);
-		u.setMaxentrust(5);
-		u.setMaxbooknum(10);
-		createUsertype(u);
+	public void testCreateUsertype() {
+		UsertypeDAO ud = new UsertypeDAO();
+		try{
+			Usertype u=new Usertype();
+			u.setUsertypeID("1");
+			u.setUsertype("本科生");
+			u.setMaxorder(20);
+			u.setMaxentrust(5);
+			u.setMaxbooknum(10);
+			assertTrue(String.valueOf(ud.createUsertype(u)),true);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		
 	}
+	*/
 
 	@Test
-	void testQueryUsertype() {
-		Integer a=5;
-		queryUsertype(5);
+	public void testQueryUsertype() {
+		UsertypeDAO ud = new UsertypeDAO();
+		try{
+			Usertype u=new Usertype();
+			assertEquals(ud.queryUsertype("1").getUsertype(),"本科生");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }

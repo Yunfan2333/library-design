@@ -16,7 +16,7 @@ public class BorrowInfoDAO extends DAOBase
 {
 	// 借阅信息
 	// 增
-	public void createBorrowInfo(BorrowInfo borrowInfo) throws Exception{
+	public boolean createBorrowInfo(BorrowInfo borrowInfo) throws Exception{
 		// SQL语句
 		String CREATE_BorrowInfo_SQL = "insert into borrowInfo(userID,bookID,borrowTime,returnTime,returnState) values(?,?,?,?,?)";
 
@@ -47,9 +47,10 @@ public class BorrowInfoDAO extends DAOBase
 			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-					
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
@@ -61,7 +62,7 @@ public class BorrowInfoDAO extends DAOBase
 	
 	// 删
 	// 根据borrowID删除借阅信息
-	public void deleteBorrowInfo(BorrowInfo borrowInfo) throws Exception{
+	public boolean deleteBorrowInfo(BorrowInfo borrowInfo) throws Exception{
 		// SQL语句
 		String DELETE_BorrowInfo_SQL = "delete from borrowInfo where borrowID=?";
 
@@ -89,9 +90,10 @@ public class BorrowInfoDAO extends DAOBase
 			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-					
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
@@ -102,7 +104,7 @@ public class BorrowInfoDAO extends DAOBase
 	}
 		
 	// 改
-	public void updateBorrowInfo(BorrowInfo borrowInfo) throws Exception{
+	public boolean updateBorrowInfo(BorrowInfo borrowInfo) throws Exception{
 		// SQL语句
 		String UPDATE_BorrowInfo_SQL = "update borrowInfo set returnTime=?,returnState=? where borrowID=?";
 
@@ -131,9 +133,10 @@ public class BorrowInfoDAO extends DAOBase
 			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-					
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
@@ -189,6 +192,7 @@ public class BorrowInfoDAO extends DAOBase
 					
 		}catch(Exception e) {
 			e.printStackTrace();
+			return null;
 		}finally {
 			try {
 				connection.close();
@@ -196,6 +200,5 @@ public class BorrowInfoDAO extends DAOBase
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}		
 }

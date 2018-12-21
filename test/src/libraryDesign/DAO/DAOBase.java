@@ -8,7 +8,7 @@ import libraryDesign.*;
 public class DAOBase implements DAO {
 
 	@Override
-	public Connection getConnection() throws DAOException {
+	public Connection getConnection() throws Exception {
 		// getConnection
 		try {
 			Connection connection = c3p0JdbcUtil.getConnection();

@@ -1,79 +1,110 @@
-package library.DAO.test;
+package libraryDesign.DAO.MyTest;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import libraryDesign.DAO.*;
+import libraryDesign.PO.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
-
-import library.PO.Userdetail;
-import library.PO.Usertype;
-
-class UserdetailDAOTest {
-
+public class UserdetailDAOTest {
+	/*
 	@Test
-	void testCreateUserdetail() {
-		Userdetail u=new Userdetail();
-		u.setCollege("±±ÁÖ");
-		u.setDocID("00");;
-		u.setLoginID("1");
-		u.setMail("1842281812@qq.com");
-		u.setProfession("±¾¿ÆÉú");
-		u.setSex("ÄĞ");
-		u.setUserID("1");
-		u.setUserName("ÕÅÈı");
-		createUserdetail(u);
+	public void testCreateUserdetail() {
+		UserdetailDAO ud=new UserdetailDAO();
 		
-		Userdetail u2=new Userdetail();
-		u2.setCollege("±±ÁÖ");
-		u2.setDocID("01");;
-		u2.setLoginID("2");
-		u2.setMail("1842281812@qq.com");
-		u2.setProfession("±¾¿ÆÉú");
-		u2.setSex("ÄĞ");
-		u2.setUserID("2");
-		u2.setUserName("ÕÅËÄ");
-		createUserdetail(u2);
-
+		try {
+			Userdetail u=new Userdetail();
+			u.setCollege("é©¬å…‹æ€ä¸»ä¹‰å­¦é™¢");
+			u.setDocID("161005005");
+			u.setLoginID("S4");
+			u.setMail("1842281812@qq.com");
+			u.setProfession("å…±äº§å…šå­¦");
+			u.setSex("ç”·");
+			u.setUserID("161005005");
+			u.setUserName("æµ‹è¯•");
+			assertTrue(String.valueOf(ud.createUserdetail(u)),true);
+			}
+		catch(Exception e){
+			e.printStackTrace();
 		}
+		
 
-	@Test
-	void testUpdateUserdetail() {
-		Userdetail u=new Userdetail();
-		u.setCollege("±±¾©ÁÖÒµ´óÑ§");
-		u.setDocID("00");;
-		u.setLoginID("1");
-		u.setMail("1842281812@qq.com");
-		u.setProfession("±¾¿ÆÉú");
-		u.setSex("ÄĞ");
-		u.setUserID("1");
-		u.setUserName("ÕÅÈı");
-		updateUserdetail(u);
 	}
+	*/
+	/*
+	@Test
+	public void testUpdateUserdetail() {
+		UserdetailDAO ud=new UserdetailDAO();
 
-	@Test
-	void testQueryUserdetail() {
-		String s="2"
-		queryUserdetail(s);
+		try {
+			Userdetail u=new Userdetail();
+			u.setCollege("é©¬å…‹æ€ä¸»ä¹‰å­¦é™¢");
+			u.setDocID("161005005");
+			u.setLoginID("S4");
+			u.setMail("1842281812@qq.com");
+			u.setProfession("å…±äº§å…šå­¦");
+			u.setSex("ç”·");
+			u.setUserID("161005005");
+			u.setUserName("æ›´æ–°æµ‹è¯•");
+			assertTrue(String.valueOf(ud.updateUserdetail(u)),true);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
+	*/
+	/*
+	@Test
+	public void testQueryUserdetail() {
+		UserdetailDAO ud=new UserdetailDAO();
+		try {
+			String s="161001001";
+			assertEquals(ud.queryUserdetail(s).getUserName(),"å¼ ä¸‰");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+
+	}
+	*/
 	
-
+	/*
 	@Test
-	void testDeleteUserdetailUserdetail() {
-		Userdetail u=new Userdetail();
-		u.setCollege("±±ÁÖ");
-		u.setDocID("00");
-		u.setLoginID("1");
-		u.setMail("1842281812@qq.com");
-		u.setProfession("±¾¿ÆÉú");
-		u.setSex("ÄĞ");
-		u.setUserID("1");
-		u.setUserName("ÕÅÈı");
-		deleteUserdetail(u);
+	public void testDeleteUserdetailUserdetail() {
+		UserdetailDAO ud=new UserdetailDAO();
+		
+		try {
+			Userdetail u=new Userdetail();
+			u.setCollege("é©¬å…‹æ€ä¸»ä¹‰å­¦é™¢");
+			u.setDocID("161005005");
+			u.setLoginID("S4");
+			u.setMail("1842281812@qq.com");
+			u.setProfession("å…±äº§å…šå­¦");
+			u.setSex("ç”·");
+			u.setUserID("161005005");
+			u.setUserName("æ›´æ–°æµ‹è¯•");
+			assertTrue(String.valueOf(ud.deleteUserdetail(u)),true);
+			
+			}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
-
+	*/
+	
 	@Test
-	void testDeleteUserdetailString() {
-		String s="1";
-		deleteUserdetail(s);
+	public void testDeleteUserdetailString() {
+		UserdetailDAO ud=new UserdetailDAO();
+
+		try {
+			String s="S4";
+			assertTrue(String.valueOf(ud.deleteUserdetail(s)),true);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 
 

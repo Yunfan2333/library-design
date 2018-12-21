@@ -2,6 +2,7 @@ package libraryDesign.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import libraryDesign.PO.Usertype;
@@ -9,7 +10,7 @@ import libraryDesign.PO.Usertype;
 public class UsertypeDAO extends DAOBase {
 	
 	// 增
-	public void createUsertype(Usertype usertype) throws Exception{
+	public boolean createUsertype(Usertype usertype) throws Exception{
 		// SQL语句
 		String CREATE_USERTYPE_SQL = "insert into usertype(usertypeID,usertype,maxbooknum,maxorder,maxentrust) values(?,?,?,?,?)";
 
@@ -39,9 +40,10 @@ public class UsertypeDAO extends DAOBase {
 			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-					
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
@@ -78,13 +80,25 @@ public class UsertypeDAO extends DAOBase {
 			 * 调用更新方法    executeUpdate()
 			 * 关闭连接    pStatement.close()
 			 */
-			Usertype usertype = (Usertype) pStatement.executeQuery();
+			//Usertype usertype = (Usertype) pStatement.executeQuery();
+			Usertype u=new Usertype();
+			ResultSet rs=pStatement.executeQuery();
+			
+			while(rs.next())
+			{
+				u.setUsertypeID(rs.getString("usertypeID"));
+				u.setUsertype(rs.getString("usertype"));
+				u.setMaxorder(rs.getInt("maxorder"));
+				u.setMaxbooknum(rs.getInt("maxbooknum"));
+				u.setMaxentrust(rs.getInt("maxentrust"));
+			}
 			pStatement.close();
 			
-			return usertype;
+			return u;
 					
 		}catch(Exception e) {
 			e.printStackTrace();
+			return null;
 		}finally {
 			try {
 				connection.close();
@@ -92,7 +106,6 @@ public class UsertypeDAO extends DAOBase {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}
 	
 	

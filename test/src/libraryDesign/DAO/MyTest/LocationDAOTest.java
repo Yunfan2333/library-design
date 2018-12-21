@@ -1,38 +1,45 @@
-package library.DAO.test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
-
-import library.PO.Location;
-
-class LocationDAOTest {
-
+package libraryDesign.DAO.MyTest;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import libraryDesign.DAO.*;
+import libraryDesign.PO.*;
+public class LocationDAOTest {
+	/*
 	@Test
-	void testCreateLocation() {
-		Location l=new Location();
-		l.setFindID("00001");
-		l.setLevel(1);
-		l.setRoom("中文阅览室");
-		l.setShelf(101);
-		createLocation(l);
-		
-		Location l2=new Location();
-		l2.setFindID("00002");
-		l2.setLevel(2);
-		l2.setRoom("中文阅览室");
-		l2.setShelf(101);
-		createLocation(l2);
+	public void testCreateLocation() {
+		LocationDAO ld=new LocationDAO();
+		try{
+			Location l=new Location();
+			l.setFindID("20311");
+			l.setLevel(1);
+			l.setRoom("301");
+			l.setShelf(5);
+			assertTrue(String.valueOf(ld.createLocation(l)),true);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
-
+	*/
+	/*
 	@Test
-	void testDeleteLocation() {
-		fail("Not yet implemented");
+	public void testDeleteLocation() {
+		LocationDAO ld=new LocationDAO();
+		try{
+			assertTrue(String.valueOf(ld.deleteLocation("20311")),true);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
+	*/
 
 	@Test
-	void testQueryLocation() {
-		fail("Not yet implemented");
+	public void testQueryLocation() {
+		LocationDAO ld=new LocationDAO();
+		try{
+			assertEquals(ld.queryLocation("20222").getRoom(),"202");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }

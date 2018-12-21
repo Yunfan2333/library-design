@@ -6,9 +6,9 @@ import libraryDesign.PO.Userdetail;
 
 public class UserdetailDAO extends DAOBase {
 	
-	// Ôö
-	public void createUserdetail(Userdetail userdetail) throws Exception{
-		// SQLÓï¾ä
+	// ï¿½ï¿½
+	public boolean createUserdetail(Userdetail userdetail) throws Exception{
+		// SQLï¿½ï¿½ï¿½
 		String CREATE_USERDETAIL_SQL = "insert into userdetail(userID,userName,docID,college,profession,sex,mail,loginID) values(?,?,?,?,?,?,?,?)";
 		
 		Connection connection = null;
@@ -17,9 +17,9 @@ public class UserdetailDAO extends DAOBase {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_USERDETAIL_SQL);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½ï¿½
 			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
+			 * ï¿½ï¿½Õ²ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½
 			 */	
 			pStatement.setString(1, userdetail.getUserID());
 			pStatement.setString(2, userdetail.getUserName());
@@ -30,35 +30,40 @@ public class UserdetailDAO extends DAOBase {
 			pStatement.setString(7, userdetail.getMail());
 			pStatement.setString(8, userdetail.getLoginID());
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
 			 */
 			
 			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 * ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½
+			 * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½    executeUpdate()
+			 * ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½    pStatement.close()
 			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-					
-		}catch(Exception e) {
+			return true;
+		}catch(Exception e)
+		{
 			e.printStackTrace();
+			
 			try {
 				connection.close();
+				
 			}catch(SQLException ee) {
 				ee.printStackTrace();
+				
 			}
+			return false;
 		}
 	}
 	
 	// É¾
-	// É¾³ýÓÃ»§ÏêÏ¸ÐÅÏ¢ºó²»Ó¦ÔÙ±£ÁôÓÃ»§µÇÂ½ÐÅÏ¢£¬Ò»ÆðÉ¾³ý
-	// ÏÈÉ¾³ýÏêÏ¸ÐÅÏ¢£¬ÔÙÉ¾³ýµÇÂ½ÐÅÏ¢
-	public void deleteUserdetail(Userdetail userdetail) throws Exception{
+	// É¾ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½Ï¢ï¿½ï¿½Ó¦ï¿½Ù±ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Â½ï¿½ï¿½Ï¢ï¿½ï¿½Ò»ï¿½ï¿½É¾ï¿½ï¿½
+	// ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½Ï¢
+	public boolean deleteUserdetail(Userdetail userdetail) throws Exception{
 
-		// SQLÓï¾ä
+		// SQLï¿½ï¿½ï¿½
 		String DELETE_USERDETAIL_SQL = "delete from userdetail where userID=?";
-		String DELETE_USER_SQL = "delete from user where loginID=?";
+		String DELETE_USER_SQL = "delete from userlogin where loginID=?";
 		
 		Connection connection = null;
 		PreparedStatement pStatement = null;
@@ -67,31 +72,32 @@ public class UserdetailDAO extends DAOBase {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(DELETE_USERDETAIL_SQL);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½ï¿½
 			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
+			 * ï¿½ï¿½Õ²ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½
 			 */	
-			pStatement.setString(0, userdetail.getUserID());
+			pStatement.setString(1, userdetail.getUserID());
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
 			 */
 			
 			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 * ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½
+			 * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½    executeUpdate()
+			 * ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½    pStatement.close()
 			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			
-			// É¾³ýµÇÂ½ÐÅÏ¢
+			// É¾ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½Ï¢
 			pStatement0 = connection.prepareStatement(DELETE_USER_SQL);
 			pStatement0.setString(1, userdetail.getLoginID());
 			pStatement0.executeUpdate();
 			pStatement0.close();
-						
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
@@ -101,12 +107,12 @@ public class UserdetailDAO extends DAOBase {
 		}
 	}
 	
-	// ÖØÔØ£¬¸ù¾ÝÓÃ»§ÃûÉ¾³ýÓÃ»§ÏêÏ¸ÐÅÏ¢
-	public void deleteUserdetail(String userID) throws Exception{
+	// ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½Ï¢
+	public boolean deleteUserdetail(String userID) throws Exception{
 		
-		// SQLÓï¾ä
+		// SQLï¿½ï¿½ï¿½
 		String DELETE_USERDETAIL_SQL = "delete from userdetail where userID=?";
-		String DELETE_USER_SQL = "delete from user where loginID=?";
+		String DELETE_USER_SQL = "delete from userlogin where loginID=?";
 				
 		Connection connection = null;
 		PreparedStatement pStatement = null;
@@ -115,31 +121,33 @@ public class UserdetailDAO extends DAOBase {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(DELETE_USERDETAIL_SQL);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½ï¿½
 			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
+			 * ï¿½ï¿½Õ²ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½
 			 */	
-			pStatement.setString(0, userID);
+			pStatement.setString(1, userID);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
 			 */
 			
 			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 * ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½
+			 * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½    executeUpdate()
+			 * ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½    pStatement.close()
 			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			
-			// É¾³ýµÇÂ½ÐÅÏ¢
+			// É¾ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½Ï¢
 			Userdetail userdetail = queryUserdetail(userID);
 			pStatement0 = connection.prepareStatement(DELETE_USER_SQL);
 			pStatement0.setString(1, userdetail.getLoginID());
 			pStatement0.executeUpdate();			
+			return true;
 					
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
@@ -150,8 +158,8 @@ public class UserdetailDAO extends DAOBase {
 	}
 	
 	
-	// ¸Ä
-	public Userdetail updateUserdetail(Userdetail userdetail) throws Exception{
+	// ï¿½ï¿½
+	public boolean updateUserdetail(Userdetail userdetail) throws Exception{
 
 		// SQL
 		String UPDATE_USERDETAIL_SQL = "update userdetail set userName=?,docID=?,college=?,profession=?,sex=?,mail=?,loginID=? where userID=?";
@@ -162,9 +170,9 @@ public class UserdetailDAO extends DAOBase {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(UPDATE_USERDETAIL_SQL);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½ï¿½
 			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
+			 * ï¿½ï¿½Õ²ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½
 			 */	
 			pStatement.setString(1, userdetail.getUserName());
 			pStatement.setString(2, userdetail.getDocID());
@@ -175,22 +183,23 @@ public class UserdetailDAO extends DAOBase {
 			pStatement.setString(7, userdetail.getLoginID());			
 			pStatement.setString(8, userdetail.getUserID());
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
 			 */
 			
 			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 * ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½
+			 * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½    executeUpdate()
+			 * ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½    pStatement.close()
 			 */
 			
 			pStatement.executeUpdate();
 			pStatement.close();
 			
-			return userdetail;
+			return true;
 					
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
@@ -198,11 +207,10 @@ public class UserdetailDAO extends DAOBase {
 				e.printStackTrace();
 			}
 		}
-		return userdetail;
 	}		
 	
-	// ²é
-	// ¸ù¾ÝÓÃ»§Ãû½øÐÐ²éÑ¯²¢·µ»Ø²éÑ¯µ½µÄUserdetail
+	// ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½Userdetail
 	public Userdetail queryUserdetail(String userID) throws Exception{
 
 		// SQL
@@ -214,28 +222,42 @@ public class UserdetailDAO extends DAOBase {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_USERDETAIL_SQL);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½ï¿½
 			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
+			 * ï¿½ï¿½Õ²ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½
 			 */	
-			pStatement.setString(0, userID);
+			pStatement.setString(1, userID);
 			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 * ï¿½ï¿½ÒªÊµï¿½ÖµÄ²ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
 			 */
 			
 			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 * ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½
+			 * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½    executeUpdate()
+			 * ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½    pStatement.close()
 			 */
-			Userdetail userdetail = (Userdetail)pStatement.executeQuery();
+			//Userdetail userdetail = (Userdetail)pStatement.executeQuery();
+			Userdetail u = new Userdetail();
+			ResultSet rs=pStatement.executeQuery();
+			while(rs.next())
+			{
+				u.setCollege(rs.getString("college"));
+				u.setDocID(rs.getString("docID"));
+				u.setLoginID(rs.getString("loginID"));
+				u.setMail(rs.getString("mail"));
+				u.setProfession(rs.getString("profession"));
+				u.setSex(rs.getString("sex"));
+				u.setUserID(rs.getString("userID"));
+				u.setUserName(rs.getString("userName"));
+			}
 
 			pStatement.close();
 			
-			return userdetail;
+			return u;
 					
 		}catch(Exception e) {
 			e.printStackTrace();
+			return null;
 		}finally {
 			try {
 				connection.close();
@@ -243,7 +265,6 @@ public class UserdetailDAO extends DAOBase {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}	
 	
 

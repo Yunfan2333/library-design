@@ -1,124 +1,187 @@
-package library.DAO.test;
+package libraryDesign.DAO.MyTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import java.util.Date;
+import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import library.PO.Document;
+import libraryDesign.DAO.*;
+import libraryDesign.PO.*;
 
-class DocumentDAOTest {
-
+public class DocumentDAOTest {
+/*
 	@Test
-	void testCreateDocument() {
-		Document d=new Document();
-		Date date1=new Date();
-		d.setAppdate(date1);
+	public void testCreateDocument() {
+		DocumentDAO dd=new DocumentDAO();
 		
-		d.setCounts(0);
-		d.setCredits(00001);
-		d.setDeposit((float) 0.0);
-		d.setDocID("000000001");
-		
-		Date date2=new Date();
-		d.setEffdate(date2);
-		
-		Date date3=new Date();
-		d.setExpdate(date3);
-		
-		d.setOwed((float)0.0);
-		d.setUsertypeID("本科生");
-		d.setViolations(5);
-		createDocument(d);
-		
-		
-		Document d2=new Document();
-		Date date11=new Date();
-		d2.setAppdate(date11);
-		
-		d2.setCounts(0);
-		d2.setCredits(00002);
-		d2.setDeposit((float) 0.0);
-		d2.setDocID("000000002");
-		
-		Date date22=new Date();
-		d2.setEffdate(date22);
-		
-		Date date33=new Date();
-		d2.setExpdate(date33);
-		
-		d2.setOwed((float)0.0);
-		d2.setUsertypeID("本科生");
-		d2.setViolations(5);
-		createDocument(d2);
+		try {
+			Document d=new Document();
+			java.util.Date utilDate1 = new java.util.Date();
+			java.sql.Date sqlDate1 = new java.sql.Date(utilDate1.getTime());
+			d.setAppdate(sqlDate1);
+			
+			d.setCounts(0);
+			d.setCredits(00001);
+			d.setDeposit((float) 0.0);
+			d.setDocID("000000001");
+			
+			java.util.Date utilDate2 = new java.util.Date();
+			java.sql.Date sqlDate2 = new java.sql.Date(utilDate2.getTime());
+			d.setEffdate(sqlDate2);
+			
+			java.util.Date utilDate3 = new java.util.Date();
+			java.sql.Date sqlDate3 = new java.sql.Date(utilDate3.getTime());
+			d.setExpdate(sqlDate3);
+			
+			d.setOwed((float)0.0);
+			d.setUsertypeID("1");
+			d.setViolations(5);
+			
+			assertTrue(String.valueOf(dd.createDocument(d)),true);
+
 		}
-
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+*/
 	
-
+/*
 	@Test
-	void testUpdateDocumentDocument() {
-		Document d=new Document();
-		Date date1=new Date();
-		d.setAppdate(date1);
+	public void testUpdateDocumentDocument() {
+		DocumentDAO dd=new DocumentDAO();
 		
-		d.setCounts(0);
-		d.setCredits(00001);
-		d.setDeposit((float) 0.0);
-		d.setDocID("000000001");
+		try {
+			Document d=new Document();
+			java.util.Date utilDate1 = new java.util.Date();
+			java.sql.Date sqlDate1 = new java.sql.Date(utilDate1.getTime());
+			d.setAppdate(sqlDate1);
+			
+			d.setCounts(0);
+			d.setCredits(00001);
+			d.setDeposit((float) 0.0);
+			d.setDocID("000000001");
+			
+			java.util.Date utilDate2 = new java.util.Date();
+			java.sql.Date sqlDate2 = new java.sql.Date(utilDate2.getTime());
+			d.setEffdate(sqlDate2);
+			
+			java.util.Date utilDate3 = new java.util.Date();
+			java.sql.Date sqlDate3 = new java.sql.Date(utilDate3.getTime());
+			d.setExpdate(sqlDate3);
+			
+			d.setOwed((float)0.0);
+			d.setUsertypeID("1");
+			d.setViolations(6);
+			
+			assertTrue(String.valueOf(dd.updateDocument(d)),true);
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		
-		Date date2=new Date();
-		d.setEffdate(date2);
 		
-		Date date3=new Date();
-		d.setExpdate(date3);
-		
-		d.setOwed((float)0.0);
-		d.setUsertypeID("本科生");
-		d.setViolations(6);
-		updateDocument(d);
 		
 	}
-
+	*/
+/*
 	@Test
-	void testUpdateDocumentStringFloatIntegerIntegerInteger() {
-		//这是啥？这样的DAO有什么意义？
-	}
+	public void testUpdateDocumentStringFloatIntegerIntegerInteger() {
+		DocumentDAO dd=new DocumentDAO();
+		
+		try {
+			String docID="000000001";
+			float owed=(float)0.0;
+			Integer violation=0;
+			Integer credits=0;
+			Integer counts=1;
+			
+			assertTrue(String.valueOf(dd.updateDocument(docID,owed,violation,credits,counts)),true);
 
-	@Test
-	void testQueryDocument() {
-		String s="000000001";
-		queryDocument(s);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
-	
+	*/
+/*
+	@Test
+	public void testQueryDocument() {
+		DocumentDAO dd=new DocumentDAO();
+		
+		try {
+			String s="000000001";
+			
+			boolean b = (dd.queryDocument(s).getOwed() == 0.0);
+			assertTrue(String.valueOf(b),true);
+			
+			//assertEquals(dd.queryDocument(s).getOwed(),(float)0.0);
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	*/
+	/*
 	@Test
 	void testDeleteDocumentDocument() {
-		Document d=new Document();
-		Date date1=new Date();
-		d.setAppdate(date1);
+		DocumentDAO dd=new DocumentDAO();
 		
-		d.setCounts(0);
-		d.setCredits(00001);
-		d.setDeposit((float) 0.0);
-		d.setDocID("000000001");
+		try {
+			Document d=new Document();
+			java.util.Date utilDate1 = new java.util.Date();
+			java.sql.Date sqlDate1 = new java.sql.Date(utilDate1.getTime());
+			d.setAppdate(sqlDate1);
+			
+			d.setCounts(0);
+			d.setCredits(00001);
+			d.setDeposit((float) 0.0);
+			d.setDocID("000000001");
+			
+			java.util.Date utilDate2 = new java.util.Date();
+			java.sql.Date sqlDate2 = new java.sql.Date(utilDate2.getTime());
+			d.setEffdate(sqlDate2);
+			
+			java.util.Date utilDate3 = new java.util.Date();
+			java.sql.Date sqlDate3 = new java.sql.Date(utilDate3.getTime());
+			d.setExpdate(sqlDate3);
+			
+			d.setOwed((float)0.0);
+			d.setUsertypeID("1");
+			d.setViolations(5);
+			
+			assertTrue(String.valueOf(dd.deleteDocument(d)),true);
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		
-		Date date2=new Date();
-		d.setEffdate(date2);
 		
-		Date date3=new Date();
-		d.setExpdate(date3);
 		
-		d.setOwed((float)0.0);
-		d.setUsertypeID("本科生");
-		d.setViolations(6);
-		
-		deleteDocument(d);
 	}
+	*/
 
 	@Test
-	void testDeleteDocumentString() {
-		String s="000000002";
-		deleteDocument(s);
+	public void testDeleteDocumentString() {
+		DocumentDAO dd=new DocumentDAO();
+		
+		try {
+			String s="000000001";
+			assertTrue(String.valueOf(dd.deleteDocument(s)),true);
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }
