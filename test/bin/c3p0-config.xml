@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+	<default-config>
+		<property name="driverClass">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+		<property name="jdbcUrl">jdbc:sqlserver://localhost:1433;DatabaseName=sqlDesign</property>
+		<property name="user">sa</property>
+		<property name="password">123456</property>
+		
+		<property name="acquireIncrement">5</property>
+		<property name="initialPoolSize">10</property>
+		<property name="maxPoolSize">20</property>
+		
+	</default-config>
+	
+	<named-config name="SQLServer">
+		<property name="driverClass">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+		<property name="jdbcUrl">jdbc:sqlserver://localhost:1433;DatabaseName=sqlDesign</property>
+		<property name="user">sa</property>
+		
+		<property name="acquireIncrement">5</property>
+		<property name="initialPoolSize">10</property>
+		<property name="maxPoolSize">20</property>
+	</named-config>
+</c3p0-config>
