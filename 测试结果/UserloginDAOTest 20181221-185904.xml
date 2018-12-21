@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UserloginDAOTest" project="test" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="libraryDesign.DAO.MyTest.UserloginDAOTest" time="1.071">
+    <testcase name="testCreateUserlogin" classname="libraryDesign.DAO.MyTest.UserloginDAOTest" time="0.507"/>
+    <testcase name="testUpdateUser" classname="libraryDesign.DAO.MyTest.UserloginDAOTest" time="0.078"/>
+    <testcase name="testQueryUserlogin" classname="libraryDesign.DAO.MyTest.UserloginDAOTest" time="0.124"/>
+    <testcase name="testDeleteUserString" classname="libraryDesign.DAO.MyTest.UserloginDAOTest" time="0.362"/>
+  </testsuite>
+</testrun>

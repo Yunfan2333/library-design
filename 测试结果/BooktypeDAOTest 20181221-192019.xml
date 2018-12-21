@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="BooktypeDAOTest" project="test" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="libraryDesign.DAO.MyTest.BooktypeDAOTest" time="2.977">
+    <testcase name="testDeleteBooktype" classname="libraryDesign.DAO.MyTest.BooktypeDAOTest" time="2.843"/>
+    <testcase name="testQueryBooktype" classname="libraryDesign.DAO.MyTest.BooktypeDAOTest" time="0.074"/>
+    <testcase name="testCreateBooktype" classname="libraryDesign.DAO.MyTest.BooktypeDAOTest" time="0.059"/>
+  </testsuite>
+</testrun>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UserdetailDAOTest" project="test" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="libraryDesign.DAO.MyTest.UserdetailDAOTest" time="0.0">
+    <testcase name="testCreateUserdetail" classname="libraryDesign.DAO.MyTest.UserdetailDAOTest" time="0.0"/>
+    <testcase name="testQueryUserdetail" classname="libraryDesign.DAO.MyTest.UserdetailDAOTest" time="0.0"/>
+    <testcase name="testUpdateUserdetail" classname="libraryDesign.DAO.MyTest.UserdetailDAOTest" time="0.0"/>
+    <testcase name="testDeleteUserdetailString" classname="libraryDesign.DAO.MyTest.UserdetailDAOTest" time="0.0"/>
+  </testsuite>
+</testrun>

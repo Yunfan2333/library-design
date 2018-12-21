@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="LocationDAOTest" project="test" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="libraryDesign.DAO.MyTest.LocationDAOTest" time="3.132">
+    <testcase name="testDeleteLocation" classname="libraryDesign.DAO.MyTest.LocationDAOTest" time="3.001"/>
+    <testcase name="testQueryLocation" classname="libraryDesign.DAO.MyTest.LocationDAOTest" time="0.068"/>
+    <testcase name="testCreateLocation" classname="libraryDesign.DAO.MyTest.LocationDAOTest" time="0.063"/>
+  </testsuite>
+</testrun>

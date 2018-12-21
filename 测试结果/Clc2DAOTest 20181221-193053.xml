@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Clc2DAOTest" project="test" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="libraryDesign.DAO.MyTest.Clc2DAOTest" time="3.056">
+    <testcase name="testQueryClc2" classname="libraryDesign.DAO.MyTest.Clc2DAOTest" time="3.026"/>
+    <testcase name="testCreateClc2" classname="libraryDesign.DAO.MyTest.Clc2DAOTest" time="0.025"/>
+  </testsuite>
+</testrun>

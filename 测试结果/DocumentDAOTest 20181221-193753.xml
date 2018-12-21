@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="DocumentDAOTest" project="test" tests="5" started="5" failures="0" errors="0" ignored="0">
+  <testsuite name="libraryDesign.DAO.MyTest.DocumentDAOTest" time="2.599">
+    <testcase name="testDeleteDocumentString" classname="libraryDesign.DAO.MyTest.DocumentDAOTest" time="2.599"/>
+    <testcase name="testUpdateDocumentDocument" classname="libraryDesign.DAO.MyTest.DocumentDAOTest" time="0.0"/>
+    <testcase name="testQueryDocument" classname="libraryDesign.DAO.MyTest.DocumentDAOTest" time="0.0"/>
+    <testcase name="testCreateDocument" classname="libraryDesign.DAO.MyTest.DocumentDAOTest" time="0.0"/>
+    <testcase name="testUpdateDocumentStringFloatIntegerIntegerInteger" classname="libraryDesign.DAO.MyTest.DocumentDAOTest" time="0.0"/>
+  </testsuite>
+</testrun>

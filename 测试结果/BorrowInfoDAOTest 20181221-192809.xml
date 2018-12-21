@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="BorrowInfoDAOTest" project="test" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="libraryDesign.DAO.MyTest.BorrowInfoDAOTest" time="1.011">
+    <testcase name="testCreateBorrowInfo" classname="libraryDesign.DAO.MyTest.BorrowInfoDAOTest" time="0.736"/>
+    <testcase name="testQueryBorrowInfo" classname="libraryDesign.DAO.MyTest.BorrowInfoDAOTest" time="0.118"/>
+    <testcase name="testDeleteBorrowInfo" classname="libraryDesign.DAO.MyTest.BorrowInfoDAOTest" time="0.095"/>
+    <testcase name="testUpdateBorrowInfo" classname="libraryDesign.DAO.MyTest.BorrowInfoDAOTest" time="0.061"/>
+  </testsuite>
+</testrun>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UsertypeDAOTest" project="test" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="libraryDesign.DAO.MyTest.UsertypeDAOTest" time="3.222">
+    <testcase name="testQueryUsertype" classname="libraryDesign.DAO.MyTest.UsertypeDAOTest" time="3.194"/>
+    <testcase name="testCreateUsertype" classname="libraryDesign.DAO.MyTest.UsertypeDAOTest" time="0.028"/>
+  </testsuite>
+</testrun>
