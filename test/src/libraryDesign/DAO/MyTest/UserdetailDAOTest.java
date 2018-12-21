@@ -5,7 +5,7 @@ import libraryDesign.DAO.*;
 import libraryDesign.PO.*;
 
 public class UserdetailDAOTest {
-	/*
+	
 	@Test
 	public void testCreateUserdetail() {
 		UserdetailDAO ud=new UserdetailDAO();
@@ -28,8 +28,8 @@ public class UserdetailDAOTest {
 		
 
 	}
-	*/
-	/*
+	
+	
 	@Test
 	public void testUpdateUserdetail() {
 		UserdetailDAO ud=new UserdetailDAO();
@@ -51,8 +51,8 @@ public class UserdetailDAOTest {
 		}
 		
 	}
-	*/
-	/*
+	
+	
 	@Test
 	public void testQueryUserdetail() {
 		UserdetailDAO ud=new UserdetailDAO();
@@ -66,7 +66,7 @@ public class UserdetailDAOTest {
 		
 
 	}
-	*/
+	
 	
 	/*
 	@Test

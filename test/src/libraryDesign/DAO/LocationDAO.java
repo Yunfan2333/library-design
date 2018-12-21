@@ -11,9 +11,9 @@ import libraryDesign.PO.*;
 
 public class LocationDAO extends DAOBase {
 
-	// Ôö£¬Ìí¼ÓÒ»¸öÎ»ÖÃ
+	//æ·»åŠ æ–°çš„ä½ç½®ä¿¡æ¯
 	public boolean createLocation(Location location) throws Exception{
-		// SQLÓï¾ä
+	
 		String CREATE_LOCATION_SQL = "insert into location(findID,room,shelf,level) values(?,?,?,?)";
 
 		Connection connection = null;
@@ -21,24 +21,12 @@ public class LocationDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_LOCATION_SQL);
-			/*
-			 * ĞèÒªÊµÏÖµÄ²¿·Ö
-			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
-			 */	
+			
 			pStatement.setString(1, location.getFindID());
 			pStatement.setString(2, location.getRoom());
 			pStatement.setInt(3, location.getShelf());
 			pStatement.setInt(4, location.getLevel());
-			/*
-			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
-			 */
 			
-			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;
@@ -54,9 +42,9 @@ public class LocationDAO extends DAOBase {
 		}
 	}	
 	
-	// É¾£¬É¾³ıÒ»¸öÎ»ÖÃ
+	//æ ¹æ®findIDï¼Œç´¢ä¹¦å·ï¼Œåˆ é™¤ä¸€ä¸ªä½ç½®ä¿¡æ¯
 	public boolean deleteLocation(String findID) throws Exception{
-		// SQLÓï¾ä
+		
 		String DELETE_LOCATION_SQL = "delete from location where findID=?";
 
 		Connection connection = null;
@@ -64,21 +52,9 @@ public class LocationDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(DELETE_LOCATION_SQL);
-			/*
-			 * ĞèÒªÊµÏÖµÄ²¿·Ö
-			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
-			 */	
-			pStatement.setString(1, findID);
-			/*
-			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
-			 */
 			
-			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
-			 */
+			pStatement.setString(1, findID);
+			
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;
@@ -95,9 +71,9 @@ public class LocationDAO extends DAOBase {
 	}
 	
 	
-	// ²é£¬¸ù¾İË÷ÊéºÅ²éÑ¯Ò»¸öÎ»ÖÃ£¬²¢·µ»Ø
+	//æ ¹æ®findIDï¼Œç´¢ä¹¦å·ï¼ŒæŸ¥è¯¢ä¸€ä¸ªä½ç½®å¹¶è¿”å›è¯¥ä½ç½®ä¿¡æ¯
 	public Location queryLocation(String findID) throws Exception{
-		// SQLÓï¾ä
+		
 		String QUERY_LOCATION_SQL = "select * from location where findID=?";
 
 		Connection connection = null;
@@ -105,21 +81,9 @@ public class LocationDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_LOCATION_SQL);
-			/*
-			 * ĞèÒªÊµÏÖµÄ²¿·Ö
-			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
-			 */	
-			pStatement.setString(1, findID);
-			/*
-			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
-			 */
 			
-			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
-			 */
+			pStatement.setString(1, findID);
+			
 			//Location location = (Location) pStatement.executeQuery();
 			Location l=new Location();
 			ResultSet rs=pStatement.executeQuery();

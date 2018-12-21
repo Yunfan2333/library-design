@@ -6,46 +6,46 @@ import libraryDesign.PO.*;
 
 
 public class UserloginDAOTest {
-	/*
+	
 	@Test
 	public void testCreateUserlogin() {
 		UserloginDAO ud = new UserloginDAO();
 		try{
 			Userlogin u=new Userlogin();
-			u.setLoginID("S4");
-			u.setPassword("123");
-			ud.createUserlogin(u);
+			u.setLoginID("S5");
+			u.setPassword("12345678");
+			assertTrue(String.valueOf(ud.createUserlogin(u)),true);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	*/
-	/*
+	
+	
 	@Test
 	public void testUpdateUser() {
 		UserloginDAO ud = new UserloginDAO();
 		try{
 			Userlogin u=new Userlogin();
 			u.setLoginID("S4");
-			u.setPassword("12345678");
-			ud.updateUserlogin(u);
+			u.setPassword("123");
+			assertTrue(String.valueOf(ud.updateUserlogin(u)),true);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	*/
-	/*
+	
+	
 	@Test
 	public void testQueryUserlogin() {
 		UserloginDAO ud = new UserloginDAO();
 		try{
 			Userlogin ul=ud.queryUserlogin("S4");
-			assertEquals(ul.getPassword(),"12345678");
+			assertEquals(ul.getPassword(),"123");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	*/
+	
 	/*
 	@Test
 	public void testDeleteUserUser() {
@@ -67,7 +67,7 @@ public class UserloginDAOTest {
 		UserloginDAO ud = new UserloginDAO();
 		try{
 			Userlogin u=new Userlogin();
-			String temp=String.valueOf(ud.deleteUser("T3"));
+			String temp=String.valueOf(ud.deleteUser("S4"));
 			assertTrue(temp,true);
 		}catch(Exception e){
 			e.printStackTrace();

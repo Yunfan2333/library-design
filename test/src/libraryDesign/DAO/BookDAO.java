@@ -10,9 +10,8 @@ import libraryDesign.PO.*;
 
 public class BookDAO extends DAOBase {
 	
-	// �������һ���飬ÿһ���ж౾���
+	// 添加一类新的书籍，需要先建好文献类型表和中图法表一表二
 	public boolean createBook(Book book) throws Exception{
-		// SQL���
 		String CREATE_BOOK_SQL = "insert into book(bookID,booktypeID,clcID1,clcID2,findID,bookName,authorName,isbn,price,info,stocknum) values(?,?,?,?,?,?,?,?,?,?,?)";
 
 		Connection connection = null;
@@ -20,11 +19,6 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_BOOK_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
 			pStatement.setString(1, book.getBookID());
 			pStatement.setString(2, book.getBooktypeID());
 			pStatement.setString(3, book.getClcID1());
@@ -36,15 +30,7 @@ public class BookDAO extends DAOBase {
 			pStatement.setFloat(9, book.getPrice());
 			pStatement.setString(10, book.getInfo());
 			pStatement.setInt(11, book.getStocknum());
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			
@@ -63,9 +49,8 @@ public class BookDAO extends DAOBase {
 	}	
 	
 	
-	// ɾ��ɾ��һ����
+	// 根据bookID删除book表中的一类书
 	public boolean deleteBook(String bookID) throws Exception{
-		// SQL���
 		String DELETE_BOOK_SQL = "delete from book where bookID=?";
 
 		Connection connection = null;
@@ -73,21 +58,7 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(DELETE_BOOK_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
 			pStatement.setString(1, bookID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
-			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;
@@ -104,7 +75,7 @@ public class BookDAO extends DAOBase {
 		}
 	}		
 	
-	// �ģ����һ���飬�������һ
+	// 根据bookID更新库存量，库存量加一（适用于还书时）
 	public boolean addBook(String bookID) throws Exception{
 		// SQL���
 		String ADD_BOOK_SQL = "update book set stocknum=? where bookID=?";
@@ -112,29 +83,14 @@ public class BookDAO extends DAOBase {
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 		try {
-			connection = getConnection();
-			
-			// �Ȳ�ѯ���ڷ��ؽ����ȡ�����		 
+			connection = getConnection();	 
 			Integer stocknum = queryBook(bookID).getStocknum() + 1;
 			
-			// ���¿����
 			pStatement = connection.prepareStatement(ADD_BOOK_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
+			
 			pStatement.setInt(1, stocknum);
 			pStatement.setString(2, bookID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();		
 			return true;
@@ -151,38 +107,23 @@ public class BookDAO extends DAOBase {
 		}
 	}		
 	
-	// ɾ��ɾ��һ���飬�����Ǹ��Ŀ����������ԣ���Ŀ�����Ĳ����ϲ��ˣ�
-	// �ģ����Ŀ����
+	//根据bookID，更新库存量，库存量减一（适用于借书时）
 	public boolean removeBook(String bookID) throws Exception{
-		// SQL���
+		
 		String REMOVE_BOOK_SQL = "update book set stocknum=? where bookID=?";
 
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 		try {
 			connection = getConnection();
-			
-			// �Ȳ�ѯ���ڷ��ؽ����ȡ�����		 
+				 
 			Integer stocknum = queryBook(bookID).getStocknum() - 1;
 			
-			// ���¿����
 			pStatement = connection.prepareStatement(REMOVE_BOOK_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
+			
 			pStatement.setInt(1, stocknum);
 			pStatement.setString(2, bookID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;
@@ -200,9 +141,9 @@ public class BookDAO extends DAOBase {
 	}		
 		
 	
-	// �飬��������Ų���ָ����һ���飬����һ����
+	// 根据条码号查询某一类书，并返回Book book
 	public Book queryBook(String bookID) throws Exception{
-		// SQL���
+		
 		String QUERY_BOOK_SQL = "select * from book where bookID=?";
 
 		Connection connection = null;
@@ -210,21 +151,9 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOK_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, bookID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setString(1, bookID);
+			
 			ResultSet rs=pStatement.executeQuery();	
 			
 			Book book = new Book();
@@ -261,9 +190,9 @@ public class BookDAO extends DAOBase {
 	}		
 	
 	
-	// �飬�����������Ͳ��ң����ض�����
+	// 根据文献类型查找多种书，并返回List<Book>类型的books
 	public List<Book> queryBookByBooktypeID(String booktypeID) throws Exception{
-		// SQL���
+		
 		String QUERY_BOOKBYBOOKTYPEID_SQL = "select * from book where booktypeID=?";
 
 		Connection connection = null;
@@ -271,21 +200,9 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYBOOKTYPEID_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, booktypeID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setString(1, booktypeID);
+			
 			ResultSet rs = pStatement.executeQuery();	
 			ArrayList<Book> books = new ArrayList<Book>(); 
 
@@ -324,9 +241,9 @@ public class BookDAO extends DAOBase {
 	}	
 	
 	
-	// �飬������ͼ������1���ң����ض�����
+	// 根据中图法1查找多种书，并返回List<Book>类型的books
 	public List<Book> queryBookByClcID1(String clcID1) throws Exception{
-		// SQL���
+		
 		String QUERY_BOOKBYCLCID1_SQL = "select * from book where clcID1=?";
 
 		Connection connection = null;
@@ -334,21 +251,9 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYCLCID1_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, clcID1);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setString(1, clcID1);
+			
 			ArrayList<Book> books = new ArrayList<Book>(); 
 			
 			ResultSet rs = pStatement.executeQuery();	
@@ -387,9 +292,9 @@ public class BookDAO extends DAOBase {
 	}		
 	
 	
-	// �飬������ͼ������2���ң����ض�����
+	// 根据中图法2查找多种书，并返回List<Book>类型的books
 	public List<Book> queryBookByClcID2(int i) throws Exception{
-		// SQL���
+		
 		String QUERY_BOOKBYCLCID2_SQL = "select * from book where clcID2=?";
 
 		Connection connection = null;
@@ -397,21 +302,9 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYCLCID2_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setInt(1, i);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setInt(1, i);
+			
 			ArrayList<Book> books = new ArrayList<Book>(); 
 			ResultSet rs = pStatement.executeQuery();	
 			
@@ -450,9 +343,9 @@ public class BookDAO extends DAOBase {
 	}
 	
 	
-	// �飬��������ģ����ѯ�����ض�����
+	// 根据题名进行模糊查询，并返回符合条件的List<Book>类型的books
 	public List<Book> queryBookByBookName(String bookName) throws Exception{
-		// SQL���
+		
 		String QUERY_BOOKBYBOOKNAME_SQL = "select * from book where bookName like ?";
 
 		Connection connection = null;
@@ -460,21 +353,9 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYBOOKNAME_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, "%"+bookName+"%");
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setString(1, "%"+bookName+"%");
+			
 			List<Book> books = new ArrayList<Book>();
 			ResultSet rs = pStatement.executeQuery();	
 			
@@ -513,9 +394,9 @@ public class BookDAO extends DAOBase {
 	}	
 	
 	
-	// �飬����������ģ����ѯ�����ض�����	
+	// 根据责任者进行模糊查询，并返回符合条件的List<Book>类型的books
 	public List<Book> queryBookByAuthorName(String authorName) throws Exception{
-		// SQL���
+		
 		String QUERY_BOOKBYAUTHORNAME_SQL = "select * from book where authorName like ?";
 
 		Connection connection = null;
@@ -523,21 +404,9 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYAUTHORNAME_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, "%" + authorName + "%");
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setString(1, "%" + authorName + "%");
+			
 			List<Book> books = new ArrayList<Book>();
 			ResultSet rs = pStatement.executeQuery();	
 			
@@ -575,9 +444,9 @@ public class BookDAO extends DAOBase {
 	}	
 	
 	
-	// �飬�������ݼ�����ģ����ѯ�����ض�����
+	// 根据内容简介进行模糊查询，并返回符合条件的List<Book>类型的books
 	public List<Book> queryBookByInfo(String info) throws Exception{
-		// SQL���
+		
 		String QUERY_BOOKBYINFO_SQL = "select * from book where info like ?";
 
 		Connection connection = null;
@@ -585,21 +454,9 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYINFO_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
+				
 			pStatement.setString(1, "%" + info + "%");
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			List<Book> books = new ArrayList<Book>();
 			ResultSet rs = pStatement.executeQuery();	
 			

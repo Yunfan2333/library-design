@@ -10,7 +10,7 @@ import libraryDesign.DAO.*;
 import libraryDesign.PO.*;
 
 public class DocumentDAOTest {
-/*
+
 	@Test
 	public void testCreateDocument() {
 		DocumentDAO dd=new DocumentDAO();
@@ -47,9 +47,9 @@ public class DocumentDAOTest {
 		
 		
 	}
-*/
+
 	
-/*
+
 	@Test
 	public void testUpdateDocumentDocument() {
 		DocumentDAO dd=new DocumentDAO();
@@ -87,8 +87,8 @@ public class DocumentDAOTest {
 		
 		
 	}
-	*/
-/*
+	
+
 	@Test
 	public void testUpdateDocumentStringFloatIntegerIntegerInteger() {
 		DocumentDAO dd=new DocumentDAO();
@@ -107,16 +107,16 @@ public class DocumentDAOTest {
 			e.printStackTrace();
 		}
 	}
-	*/
-/*
+	
+
 	@Test
 	public void testQueryDocument() {
 		DocumentDAO dd=new DocumentDAO();
 		
 		try {
-			String s="000000001";
+			String s="161001001";
 			
-			boolean b = (dd.queryDocument(s).getOwed() == 0.0);
+			boolean b = (dd.queryDocument(s).getUsertypeID().equals("Type1"));
 			assertTrue(String.valueOf(b),true);
 			
 			//assertEquals(dd.queryDocument(s).getOwed(),(float)0.0);
@@ -127,7 +127,7 @@ public class DocumentDAOTest {
 		}
 		
 	}
-	*/
+	
 	/*
 	@Test
 	void testDeleteDocumentDocument() {

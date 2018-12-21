@@ -6,9 +6,10 @@ import libraryDesign.PO.Userdetail;
 
 public class UserdetailDAO extends DAOBase {
 	
-	// ��
+	//添加新的Userdetail（详细信息）
+	//需要先有登陆信息
 	public boolean createUserdetail(Userdetail userdetail) throws Exception{
-		// SQL���
+		
 		String CREATE_USERDETAIL_SQL = "insert into userdetail(userID,userName,docID,college,profession,sex,mail,loginID) values(?,?,?,?,?,?,?,?)";
 		
 		Connection connection = null;
@@ -16,11 +17,7 @@ public class UserdetailDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_USERDETAIL_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
+			
 			pStatement.setString(1, userdetail.getUserID());
 			pStatement.setString(2, userdetail.getUserName());
 			pStatement.setString(3, userdetail.getDocID());
@@ -29,15 +26,7 @@ public class UserdetailDAO extends DAOBase {
 			pStatement.setString(6, userdetail.getSex());
 			pStatement.setString(7, userdetail.getMail());
 			pStatement.setString(8, userdetail.getLoginID());
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;
@@ -56,12 +45,11 @@ public class UserdetailDAO extends DAOBase {
 		}
 	}
 	
-	// ɾ
-	// ɾ���û���ϸ��Ϣ��Ӧ�ٱ����û���½��Ϣ��һ��ɾ��
-	// ��ɾ����ϸ��Ϣ����ɾ����½��Ϣ
+	//根据Userdetail删除userdetail表中对应的userdetail详细信息
+	//需要同时删除登陆信息
 	public boolean deleteUserdetail(Userdetail userdetail) throws Exception{
 
-		// SQL���
+		
 		String DELETE_USERDETAIL_SQL = "delete from userdetail where userID=?";
 		String DELETE_USER_SQL = "delete from userlogin where loginID=?";
 		
@@ -71,25 +59,13 @@ public class UserdetailDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(DELETE_USERDETAIL_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, userdetail.getUserID());
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setString(1, userdetail.getUserID());
+			
 			pStatement.executeUpdate();
 			pStatement.close();
 			
-			// ɾ����½��Ϣ
+			
 			pStatement0 = connection.prepareStatement(DELETE_USER_SQL);
 			pStatement0.setString(1, userdetail.getLoginID());
 			pStatement0.executeUpdate();
@@ -107,10 +83,11 @@ public class UserdetailDAO extends DAOBase {
 		}
 	}
 	
-	// ���أ������û���ɾ���û���ϸ��Ϣ
+	//根据userID删除userdetail表中对应的userdetail详细信息
+	//需要同时删除登陆信息
 	public boolean deleteUserdetail(String userID) throws Exception{
 		
-		// SQL���
+		
 		String DELETE_USERDETAIL_SQL = "delete from userdetail where userID=?";
 		String DELETE_USER_SQL = "delete from userlogin where loginID=?";
 				
@@ -120,25 +97,13 @@ public class UserdetailDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(DELETE_USERDETAIL_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, userID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setString(1, userID);
+			
 			pStatement.executeUpdate();
 			pStatement.close();
 			
-			// ɾ����½��Ϣ
+			
 			Userdetail userdetail = queryUserdetail(userID);
 			pStatement0 = connection.prepareStatement(DELETE_USER_SQL);
 			pStatement0.setString(1, userdetail.getLoginID());
@@ -158,7 +123,7 @@ public class UserdetailDAO extends DAOBase {
 	}
 	
 	
-	// ��
+	//更新userdetail表，根据userID更新其他信息
 	public boolean updateUserdetail(Userdetail userdetail) throws Exception{
 
 		// SQL
@@ -169,11 +134,7 @@ public class UserdetailDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(UPDATE_USERDETAIL_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
+			
 			pStatement.setString(1, userdetail.getUserName());
 			pStatement.setString(2, userdetail.getDocID());
 			pStatement.setString(3, userdetail.getCollege());
@@ -182,15 +143,7 @@ public class UserdetailDAO extends DAOBase {
 			pStatement.setString(6, userdetail.getMail());
 			pStatement.setString(7, userdetail.getLoginID());			
 			pStatement.setString(8, userdetail.getUserID());
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			
 			pStatement.executeUpdate();
 			pStatement.close();
@@ -209,8 +162,7 @@ public class UserdetailDAO extends DAOBase {
 		}
 	}		
 	
-	// ��
-	// �����û������в�ѯ�����ز�ѯ����Userdetail
+	// 根据userID进行查询，并返回查询到的userdetail的结果
 	public Userdetail queryUserdetail(String userID) throws Exception{
 
 		// SQL
@@ -221,21 +173,9 @@ public class UserdetailDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_USERDETAIL_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, userID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setString(1, userID);
+			
 			//Userdetail userdetail = (Userdetail)pStatement.executeQuery();
 			Userdetail u = new Userdetail();
 			ResultSet rs=pStatement.executeQuery();

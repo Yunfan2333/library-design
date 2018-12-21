@@ -9,7 +9,7 @@ import libraryDesign.PO.Clc2;
 import org.junit.Test;
 
 public class Clc2DAOTest {
-	/*
+	
 	@Test
 	public void testCreateClc2() {
 		Clc2DAO clc2 = new Clc2DAO();
@@ -23,13 +23,13 @@ public class Clc2DAOTest {
 			e.printStackTrace();
 		}
 	}
-	*/
+	
 	
 	@Test
 	public void testQueryClc2() {
 		Clc2DAO clc2 = new Clc2DAO();
 		try{
-			assertEquals(clc2.queryClc2("G", 1).getClcname2(),"中国历史");
+			assertEquals(clc2.queryClc2("B", 3).getClcname2(),"亚洲哲学");
 		}catch(Exception e){
 			e.printStackTrace();
 		}

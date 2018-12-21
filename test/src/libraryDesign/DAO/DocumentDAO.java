@@ -10,8 +10,8 @@ import libraryDesign.PO.*;
 
 public class DocumentDAO extends DAOBase {
 	
-	// ֤��Document
-	// ��
+	// 添加新的Document
+	//需要先对应的用户详细信息
 	public boolean createDocument(Document document) throws Exception{
 		// SQL���
 		String CREATE_DOCUMENT_SQL = "insert into document(effdate,expdate,appdate,owed,violations,usertypeID,deposit,credits,counts,docID) values(?,?,?,?,?,?,?,?,?,?) ";
@@ -21,11 +21,7 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_DOCUMENT_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
+			
 			pStatement.setDate(1, (java.sql.Date) document.getEffdate());
 			pStatement.setDate(2, (java.sql.Date) document.getExpdate());
 			pStatement.setDate(3, (java.sql.Date) document.getAppdate());
@@ -36,15 +32,7 @@ public class DocumentDAO extends DAOBase {
 			pStatement.setInt(8, document.getCredits());
 			pStatement.setInt(9, document.getCounts());
 			pStatement.setString(10, document.getDocID());
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;		
@@ -60,8 +48,8 @@ public class DocumentDAO extends DAOBase {
 		}
 	}	
 	
-	// ɾ
-	// ɾ��֤������Ҫ��ɾ���û���ϸ��Ϣ������Ҫ��ɾ���û���½��Ϣ
+	//根据Document删除document表中对应的详细信息
+	//需要在该方法内先删除用户详细信息
 	public boolean deleteDocument(Document document) throws Exception{
 		// SQL���
 		String DELETE_DOCUMENT_SQL = "delete from document where docID=?";
@@ -73,7 +61,7 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			
-			// ɾ���û���ϸ��Ϣ�Լ���½��Ϣ
+			
 			pStatement0 = connection.prepareStatement(QUERY_USERID_SQL);
 			pStatement0.setString(1, document.getDocID());
 			Userdetail userdetail = (Userdetail) pStatement0.executeQuery();
@@ -83,23 +71,11 @@ public class DocumentDAO extends DAOBase {
 			ud.deleteUserdetail(userdetail);
 			pStatement0.close();
 		
-			// ɾ��֤��
-			pStatement = connection.prepareStatement(DELETE_DOCUMENT_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(0, document.getDocID());
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement = connection.prepareStatement(DELETE_DOCUMENT_SQL);
+			
+			pStatement.setString(0, document.getDocID());
+			
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;
@@ -115,9 +91,10 @@ public class DocumentDAO extends DAOBase {
 		}
 	}
 	
-	// ���ط���������docID����ɾ��
+	//根据docID删除document表中对应的详细信息
+	//需要在该方法内先删除用户详细信息
 	public boolean deleteDocument(String docID) throws Exception{
-		// SQL���
+		
 		String DELETE_DOCUMENT_SQL = "delete from document where docID=?";
 		//String QUERY_USERID_SQL = "select * from userdetail where docID=?";
 
@@ -127,7 +104,7 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			
-			// ɾ���û���ϸ��Ϣ�Լ���½��Ϣ
+			
 			//pStatement0 = connection.prepareStatement(QUERY_USERID_SQL);
 			//pStatement0.setString(1, docID);
 			//ResultSet rs=pStatement0.executeQuery();
@@ -142,23 +119,11 @@ public class DocumentDAO extends DAOBase {
 			//ud.deleteUserdetail(userdetail);
 			//pStatement0.close();
 		
-			// ɾ��֤��
-			pStatement = connection.prepareStatement(DELETE_DOCUMENT_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, docID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement = connection.prepareStatement(DELETE_DOCUMENT_SQL);
+			
+			pStatement.setString(1, docID);
+			
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;
@@ -176,9 +141,10 @@ public class DocumentDAO extends DAOBase {
 	
 	
 		
-	// ��
+	//根据Document的docID更新document表中对应的其他所有信息
+	
 	public boolean updateDocument(Document document) throws Exception{
-		// SQL���
+		
 		String UPDATE_DOCUMENT_SQL = "update document set owed=?,violations=?,credits=?,counts=? where docID=?";
 
 		Connection connection = null;
@@ -186,25 +152,13 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(UPDATE_DOCUMENT_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
+			
 			pStatement.setFloat(1, document.getOwed());
 			pStatement.setInt(2, document.getViolations());
 			pStatement.setInt(3, document.getCredits());
 			pStatement.setInt(4, document.getCounts());
 			pStatement.setString(5, document.getDocID());
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;
@@ -220,9 +174,9 @@ public class DocumentDAO extends DAOBase {
 		}
 	}	
 
-	// ���ط���
+	//根据Document的docID更新document表中对应的其他所有信息
 	public boolean updateDocument(String docID,float owed,Integer violations,Integer credits,Integer counts) throws Exception{
-		// SQL���
+		
 		String UPDATE_DOCUMENT_SQL = "update document set owed=?,violations=?,credits=?,counts=? where docID=?";
 
 		Connection connection = null;
@@ -230,25 +184,13 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(UPDATE_DOCUMENT_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
+			
 			pStatement.setFloat(1, owed);
 			pStatement.setInt(2, violations);
 			pStatement.setInt(3, credits);
 			pStatement.setInt(4, counts);
 			pStatement.setString(5, docID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();
 			return true;
@@ -264,9 +206,9 @@ public class DocumentDAO extends DAOBase {
 		}
 	}		
 	
-	// ��
+	//根据docID查询document表中的信息，并返回一个document
 	public Document queryDocument(String docID) throws Exception{
-		// SQL���
+		
 		String QUERY_DOCUMENT_SQL = "select * from document where docID=?";
 
 		Connection connection = null;
@@ -274,21 +216,9 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_DOCUMENT_SQL);
-			/*
-			 * ��Ҫʵ�ֵĲ���
-			 * prepare a statement to insert a record
-			 * ��ղ�׼����ģ��SQL����в���������γ�������SQL����
-			 */	
-			pStatement.setString(1, docID);
-			/*
-			 * ��Ҫʵ�ֵĲ��ֽ���
-			 */
 			
-			/*
-			 * �̶�����
-			 * ���ø��·���    executeUpdate()
-			 * �ر�����    pStatement.close()
-			 */
+			pStatement.setString(1, docID);
+			
 			//Document document = (Document)pStatement.executeQuery();		
 			Document d=new Document();
 			ResultSet rs=pStatement.executeQuery();

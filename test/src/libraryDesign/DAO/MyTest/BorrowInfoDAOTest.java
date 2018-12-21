@@ -11,7 +11,7 @@ import libraryDesign.DAO.BorrowInfoDAO;
 import libraryDesign.PO.BorrowInfo;
 
 public class BorrowInfoDAOTest {
-/*
+
 	@Test
 	public void testCreateBorrowInfo() {
 		
@@ -26,9 +26,7 @@ public class BorrowInfoDAOTest {
 		b.setBorrowTime(sqlDate);
 		
 		
-		b.setReturnState("δ�黹");
-		
-		
+		b.setReturnState("未归还");
 		
 		b.setUserID("161001001");
 		
@@ -37,8 +35,8 @@ public class BorrowInfoDAOTest {
 			e.printStackTrace();
 		}
 	}
-*/
-/*
+
+
 	@Test
 	public void testUpdateBorrowInfo() {
 		BorrowInfoDAO bd=new BorrowInfoDAO();
@@ -46,7 +44,7 @@ public class BorrowInfoDAOTest {
 		BorrowInfo b=new BorrowInfo();
 		
 		
-		b.setReturnState("�ѹ黹");
+		b.setReturnState("已归还");
 		
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -59,13 +57,13 @@ public class BorrowInfoDAOTest {
 			e.printStackTrace();
 		}
 	}
-	*/
+	
 
 	@Test
 	public void testQueryBorrowInfo() {
 		BorrowInfoDAO bd=new BorrowInfoDAO();
 		try{
-		int s=7;
+		int s=6;
 		BorrowInfo bi=bd.queryBorrowInfo(s);
 //		System.out.println(bi.getBookID());
 		
@@ -75,26 +73,19 @@ public class BorrowInfoDAOTest {
 			e.printStackTrace();
 		}
 	}
-/*
+
 	
 	@Test
 	public void testDeleteBorrowInfo() {
-		BorrowInfo b=new BorrowInfo();
-		b.setBookID("10001");
-		b.setBorrowID("20001");
+		BorrowInfoDAO bd=new BorrowInfoDAO();
+		try{
+			assertTrue(String.valueOf(bd.deleteBorrowInfo(7)),true);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
-		Date date1=new Date();
-		b.setBorrowTime(date1);
 		
-		b.setReturnState("�ѹ黹");
-		
-		Date date2=new Date();
-		b.setReturnTime(date2);
-		
-		b.setUserID("00001");
-		
-		deleteBorrowInfo(b);
 	}
-	*/
+	
 	
 }

@@ -37,48 +37,39 @@ public class BookDAOTest {
 	}
 	*/
 
-	// 需最后一个测试（删除101）
-	@Test
-	public void testDeleteBook() {
-		BookDAO bd = new BookDAO();
-		try {
-			assertTrue(String.valueOf(bd.deleteBook("101")),true);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/*
+	
+/*
+	
 	// 库存量加一
 	@Test
 	public void testAddBook() {
 		BookDAO bd = new BookDAO();
 		try {
-			assertTrue(String.valueOf(bd.addBook("101")),true);
+			assertTrue(String.valueOf(bd.addBook("001")),true);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	*/
-/*
+	
+
 	// 库存量减一
 	@Test
 	public void testRemoveBook() {
 		BookDAO bd = new BookDAO();
 		try {
-			assertTrue(String.valueOf(bd.removeBook("101")),true);
+			assertTrue(String.valueOf(bd.removeBook("001")),true);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	*/
-/*
+	
+
 	@Test
 	public void testQueryBook() {
 		BookDAO bd = new BookDAO();
 		try {
-			Book book = bd.queryBook("101");
-			assertEquals(book.getBookName(),"测试书名");
+			Book book = bd.queryBook("001");
+			assertEquals(book.getBookName(),"共产党宣言");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -115,7 +106,7 @@ public class BookDAOTest {
 		}
 	}
 	*/
-/*
+	/*
 	@Test
 	public void testQueryBookByClcID2() {
 		BookDAO bd = new BookDAO();
@@ -162,7 +153,7 @@ public class BookDAOTest {
 		}
 	}
 	*/
-/*
+
 	// 模糊查询，需要输出到控制台查看	
 	@Test
 	public void testQueryBookByInfo() {
@@ -177,5 +168,17 @@ public class BookDAOTest {
 			e.printStackTrace();
 		}
 	}
-*/
+
+	/*
+	// 需最后一个测试（删除101）
+		@Test
+		public void testDeleteBook() {
+			BookDAO bd = new BookDAO();
+			try {
+				assertTrue(String.valueOf(bd.deleteBook("101")),true);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		*/
 }

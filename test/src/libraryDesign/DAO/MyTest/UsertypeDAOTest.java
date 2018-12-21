@@ -5,14 +5,14 @@ import libraryDesign.DAO.*;
 import libraryDesign.PO.*;
 
 public class UsertypeDAOTest {
-	/*
+	
 	@Test
 	public void testCreateUsertype() {
 		UsertypeDAO ud = new UsertypeDAO();
 		try{
 			Usertype u=new Usertype();
 			u.setUsertypeID("1");
-			u.setUsertype("±¾¿ÆÉú");
+			u.setUsertype("æœ¬ç§‘ç”Ÿ");
 			u.setMaxorder(20);
 			u.setMaxentrust(5);
 			u.setMaxbooknum(10);
@@ -24,14 +24,15 @@ public class UsertypeDAOTest {
 		
 		
 	}
-	*/
+	
+	
 
 	@Test
 	public void testQueryUsertype() {
 		UsertypeDAO ud = new UsertypeDAO();
 		try{
 			Usertype u=new Usertype();
-			assertEquals(ud.queryUsertype("1").getUsertype(),"±¾¿ÆÉú");
+			assertEquals(ud.queryUsertype("Type1").getUsertype(),"æœ¬ç§‘ç”Ÿ");
 			
 		}catch(Exception e){
 			e.printStackTrace();

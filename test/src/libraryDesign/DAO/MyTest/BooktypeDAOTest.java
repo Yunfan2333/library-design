@@ -7,7 +7,7 @@ import libraryDesign.PO.*;
 import org.junit.Test;
 
 public class BooktypeDAOTest {
-/*
+
 	// 需第一个测试
 	@Test
 	public void testCreateBooktype() {
@@ -28,8 +28,26 @@ public class BooktypeDAOTest {
 
 
 	}
-	*/
+	
 
+	
+
+	
+	// 需第二个测试
+	@Test
+	public void testQueryBooktype() {
+		BooktypeDAO bd = new BooktypeDAO();
+		try {
+			
+			Booktype bt = bd.queryBooktype("001");
+			
+			assertEquals(bt.getBooktypeName(),"中文图书");
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 	// 需第三个测试
 	@Test
 	public void testDeleteBooktype() {
@@ -42,23 +60,5 @@ public class BooktypeDAOTest {
 			e.printStackTrace();
 		}
 	}
-
-	/*
-	// 需第二个测试
-	@Test
-	public void testQueryBooktype() {
-		BooktypeDAO bd = new BooktypeDAO();
-		try {
-			
-			Booktype bt = bd.queryBooktype("1001");
-			
-			assertEquals(bt.getBooktypeName(),"测试文献类名");
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-	*/
 
 }
