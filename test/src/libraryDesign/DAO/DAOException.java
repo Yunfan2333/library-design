@@ -1,4 +1,4 @@
-package libraryDesign.DAO;
+package library.DAO;
 
 public class DAOException extends Exception {
 
