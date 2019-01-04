@@ -1,4 +1,4 @@
-package libraryDesign.PO;
+package library.PO;
 
 public class Location {
 	
