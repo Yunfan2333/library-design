@@ -1,57 +1,68 @@
-package libraryDesign.DAO;
+package library.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import libraryDesign.PO.*;
+import library.PO.Document;
+import library.PO.Userdetail;
 
 public class DocumentDAO extends DAOBase {
 	
-	// æ·»åŠ æ–°çš„Document
-	//éœ€è¦å…ˆå¯¹åº”çš„ç”¨æˆ·è¯¦ç»†ä¿¡æ¯
-	public boolean createDocument(Document document) throws Exception{
-		// SQLï¿½ï¿½ï¿½
-		String CREATE_DOCUMENT_SQL = "insert into document(effdate,expdate,appdate,owed,violations,usertypeID,deposit,credits,counts,docID) values(?,?,?,?,?,?,?,?,?,?) ";
+	// Ö¤¼şDocument
+	// Ôö
+	public void createDocument(Document document) throws Exception{
+		// SQLÓï¾ä
+		String CREATE_DOCUMENT_SQL = "insert into document(effdate,expdate,appdate,owed,violations,usertypeID,deposit,credits,counts) values(?,?,?,?,?,?,?,?,?)";
 
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_DOCUMENT_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setDate(0, (java.sql.Date) document.getEffdate());
+			pStatement.setDate(1, (java.sql.Date) document.getExpdate());
+			pStatement.setDate(2, (java.sql.Date) document.getAppdate());
+			pStatement.setFloat(3, document.getOwed());
+			pStatement.setInt(4, document.getViolations());
+			pStatement.setString(5, document.getUsertypeID());
+			pStatement.setFloat(6, document.getDeposit());
+			pStatement.setInt(7, document.getCredits());
+			pStatement.setInt(8, document.getCounts());
+			pStatement.setString(9, document.getDocID());
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setDate(1, (java.sql.Date) document.getEffdate());
-			pStatement.setDate(2, (java.sql.Date) document.getExpdate());
-			pStatement.setDate(3, (java.sql.Date) document.getAppdate());
-			pStatement.setFloat(4, document.getOwed());
-			pStatement.setInt(5, document.getViolations());
-			pStatement.setString(6, document.getUsertypeID());
-			pStatement.setFloat(7, document.getDeposit());
-			pStatement.setInt(8, document.getCredits());
-			pStatement.setInt(9, document.getCounts());
-			pStatement.setString(10, document.getDocID());
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			return true;		
+					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}	
 	
-	//æ ¹æ®Documentåˆ é™¤documentè¡¨ä¸­å¯¹åº”çš„è¯¦ç»†ä¿¡æ¯
-	//éœ€è¦åœ¨è¯¥æ–¹æ³•å†…å…ˆåˆ é™¤ç”¨æˆ·è¯¦ç»†ä¿¡æ¯
-	public boolean deleteDocument(Document document) throws Exception{
-		// SQLï¿½ï¿½ï¿½
+	// É¾
+	// É¾³ıÖ¤¼ş£¬ĞèÒªÏÈÉ¾³ıÓÃ»§ÏêÏ¸ĞÅÏ¢£¬ÓÖĞèÒªÏÈÉ¾³ıÓÃ»§µÇÂ½ĞÅÏ¢
+	public void deleteDocument(Document document) throws Exception{
+		// SQLÓï¾ä
 		String DELETE_DOCUMENT_SQL = "delete from document where docID=?";
 		String QUERY_USERID_SQL = "select * from userdetail where docID=?";
 
@@ -61,90 +72,103 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			
-			
+			// É¾³ıÓÃ»§ÏêÏ¸ĞÅÏ¢ÒÔ¼°µÇÂ½ĞÅÏ¢
 			pStatement0 = connection.prepareStatement(QUERY_USERID_SQL);
-			pStatement0.setString(1, document.getDocID());
+			pStatement0.setString(0, document.getDocID());
 			Userdetail userdetail = (Userdetail) pStatement0.executeQuery();
 			
 			UserdetailDAO ud = new UserdetailDAO();
 			ud.deleteUserdetail(userdetail);
-			ud.deleteUserdetail(userdetail);
 			pStatement0.close();
 		
-			
+			// É¾³ıÖ¤¼ş
 			pStatement = connection.prepareStatement(DELETE_DOCUMENT_SQL);
-			
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
 			pStatement.setString(0, document.getDocID());
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			return true;
+					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}
 	
-	//æ ¹æ®docIDåˆ é™¤documentè¡¨ä¸­å¯¹åº”çš„è¯¦ç»†ä¿¡æ¯
-	//éœ€è¦åœ¨è¯¥æ–¹æ³•å†…å…ˆåˆ é™¤ç”¨æˆ·è¯¦ç»†ä¿¡æ¯
-	public boolean deleteDocument(String docID) throws Exception{
-		
+	// ÖØÔØ·½·¨£¬¸ù¾İdocID½øĞĞÉ¾³ı
+	public void deleteDocument(String docID) throws Exception{
+		// SQLÓï¾ä
 		String DELETE_DOCUMENT_SQL = "delete from document where docID=?";
-		//String QUERY_USERID_SQL = "select * from userdetail where docID=?";
+		String QUERY_USERID_SQL = "select * from userdetail where docID=?";
 
 		Connection connection = null;
 		PreparedStatement pStatement = null;
-		//PreparedStatement pStatement0 = null;
+		PreparedStatement pStatement0 = null;
 		try {
 			connection = getConnection();
 			
+			// É¾³ıÓÃ»§ÏêÏ¸ĞÅÏ¢ÒÔ¼°µÇÂ½ĞÅÏ¢
+			pStatement0 = connection.prepareStatement(QUERY_USERID_SQL);
+			pStatement0.setString(0, docID);
+			Userdetail userdetail = (Userdetail) pStatement0.executeQuery();
 			
-			//pStatement0 = connection.prepareStatement(QUERY_USERID_SQL);
-			//pStatement0.setString(1, docID);
-			//ResultSet rs=pStatement0.executeQuery();
-			//Userdetail userdetail = new Userdetail();
-			//while(rs.next()){
-			//	userdetail.setUserID("userID");
-				
-			//}
-			//Userdetail userdetail = (Userdetail) pStatement0.executeQuery();
-			
-			//UserdetailDAO ud = new UserdetailDAO();
-			//ud.deleteUserdetail(userdetail);
-			//pStatement0.close();
+			UserdetailDAO ud = new UserdetailDAO();
+			ud.deleteUserdetail(userdetail);
+			pStatement0.close();
 		
-			
+			// É¾³ıÖ¤¼ş
 			pStatement = connection.prepareStatement(DELETE_DOCUMENT_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, docID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, docID);
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			return true;
+					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}	
 	
 	
 		
-	//æ ¹æ®Documentçš„docIDæ›´æ–°documentè¡¨ä¸­å¯¹åº”çš„å…¶ä»–æ‰€æœ‰ä¿¡æ¯
-	
-	public boolean updateDocument(Document document) throws Exception{
-		
+	// ¸Ä
+	public void updateDocument(Document document) throws Exception{
+		// SQLÓï¾ä
 		String UPDATE_DOCUMENT_SQL = "update document set owed=?,violations=?,credits=?,counts=? where docID=?";
 
 		Connection connection = null;
@@ -152,31 +176,42 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(UPDATE_DOCUMENT_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setFloat(0, document.getOwed());
+			pStatement.setInt(1, document.getViolations());
+			pStatement.setInt(2, document.getCredits());
+			pStatement.setInt(3, document.getCounts());
+			pStatement.setString(4, document.getDocID());
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setFloat(1, document.getOwed());
-			pStatement.setInt(2, document.getViolations());
-			pStatement.setInt(3, document.getCredits());
-			pStatement.setInt(4, document.getCounts());
-			pStatement.setString(5, document.getDocID());
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			return true;
+					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}	
 
-	//æ ¹æ®Documentçš„docIDæ›´æ–°documentè¡¨ä¸­å¯¹åº”çš„å…¶ä»–æ‰€æœ‰ä¿¡æ¯
-	public boolean updateDocument(String docID,float owed,Integer violations,Integer credits,Integer counts) throws Exception{
-		
+	// ÖØÔØ·½·¨
+	public void updateDocument(String docID,float owed,Integer violations,Integer credits,Integer counts) throws Exception{
+		// SQLÓï¾ä
 		String UPDATE_DOCUMENT_SQL = "update document set owed=?,violations=?,credits=?,counts=? where docID=?";
 
 		Connection connection = null;
@@ -184,31 +219,42 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(UPDATE_DOCUMENT_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setFloat(0, owed);
+			pStatement.setInt(1, violations);
+			pStatement.setInt(2, credits);
+			pStatement.setInt(3, counts);
+			pStatement.setString(4, docID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setFloat(1, owed);
-			pStatement.setInt(2, violations);
-			pStatement.setInt(3, credits);
-			pStatement.setInt(4, counts);
-			pStatement.setString(5, docID);
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			return true;
+					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}		
 	
-	//æ ¹æ®docIDæŸ¥è¯¢documentè¡¨ä¸­çš„ä¿¡æ¯ï¼Œå¹¶è¿”å›ä¸€ä¸ªdocument
+	// ²é
 	public Document queryDocument(String docID) throws Exception{
-		
+		// SQLÓï¾ä
 		String QUERY_DOCUMENT_SQL = "select * from document where docID=?";
 
 		Connection connection = null;
@@ -216,38 +262,33 @@ public class DocumentDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_DOCUMENT_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, docID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, docID);
-			
-			//Document document = (Document)pStatement.executeQuery();		
-			Document d=new Document();
-			ResultSet rs=pStatement.executeQuery();
-			while(rs.next())
-			{
-				d.setAppdate(rs.getDate("appdate"));
-				d.setCounts(rs.getInt("counts"));
-				d.setCredits(rs.getInt("credits"));
-				d.setDeposit(rs.getFloat("deposit"));
-				d.setDocID(rs.getString("docID"));
-				d.setEffdate(rs.getDate("effdate"));
-				d.setExpdate(rs.getDate("expdate"));
-				d.setOwed(rs.getFloat("owed"));
-				d.setUsertypeID(rs.getString("usertypeID"));
-				d.setViolations(rs.getInt("violations"));
-				
-			}
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			Document document = (Document)pStatement.executeQuery();		
 			pStatement.close();
 			
-			return d;
+			return document;
 					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}		
