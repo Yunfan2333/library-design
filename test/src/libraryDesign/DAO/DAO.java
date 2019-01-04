@@ -1,9 +1,9 @@
-package libraryDesign.DAO;
+package library.DAO;
 
 import java.sql.Connection;
 
 public interface DAO {
 	
-	public Connection getConnection() throws Exception;
+	public Connection getConnection() throws DAOException;
 
 }
