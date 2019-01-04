@@ -1,51 +1,55 @@
-package library.DAO.test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
-
-import library.PO.User;
+package libraryDesign.DAO.MyTest;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import libraryDesign.DAO.*;
+import libraryDesign.PO.*;
 
 class UserDAOTest {
 
 	@Test
-	void testCreateUser() {
-		User u=new User();
+	void testCreateUser() throws Exception {
+		UserloginDAO ud = new UserloginDAO();
+		Userlogin u=new Userlogin();
 		u.setLoginID("1");
 		u.setPassword("123456");
-		createUser(u);
+		ud.createUserlogin(u);
 		
-		User u2=new User();
+		Userlogin u2=new Userlogin();
 		u2.setLoginID("2");
 		u2.setPassword("123456");
-		createUser(u2);
+		ud.createUserlogin(u2);
 	}
 
 	@Test
-	void testUpdateUser() {
-		User u=new User();
+	void testUpdateUser() throws Exception {
+		UserloginDAO ud = new UserloginDAO();
+		Userlogin u=new Userlogin();
 		u.setLoginID("1");
 		u.setPassword("12345678");
-		queryUser(u);
+		ud.updateUserlogin(u);
 	}
 
 	@Test
-	void testQueryUser() {
+	void testQueryUser() throws Exception {
+		UserloginDAO ud = new UserloginDAO();
 		String s="2";
-		deleteUser(s);	}
+		ud.queryUserlogin(s);
+	}
 	
 	@Test
-	void testDeleteUserUser() {
-		User u=new User();
+	void testDeleteUserUser() throws Exception {
+		UserloginDAO ud = new UserloginDAO();
+		Userlogin u=new Userlogin();
 		u.setLoginID("1");
 		u.setPassword("123456");
-		deleteUser(u);
+		ud.deleteUser(u);
 	}
 
 	@Test
-	void testDeleteUserString() {
+	void testDeleteUserString() throws Exception {
+		UserloginDAO ud = new UserloginDAO();
 		String s="2";
-		deleteUser(s);
+		ud.deleteUser(s);
 	}
 
 }

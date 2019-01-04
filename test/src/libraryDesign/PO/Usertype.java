@@ -1,4 +1,4 @@
-package library.PO;
+package libraryDesign.PO;
 
 public class Usertype {
 	
