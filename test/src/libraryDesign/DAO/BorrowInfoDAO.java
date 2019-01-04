@@ -1,65 +1,56 @@
-package library.DAO;
+package libraryDesign.DAO;
+
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
-import library.PO.BorrowInfo;
-import library.PO.Document;
-import library.PO.Userdetail;
+import libraryDesign.PO.*;
 
 public class BorrowInfoDAO extends DAOBase
 {
-	// ½èÔÄÐÅÏ¢
-	// Ôö
-	public void createBorrowInfo(BorrowInfo borrowInfo) throws Exception{
-		// SQLÓï¾ä
-		String CREATE_BorrowInfo_SQL = "insert into borrowInfo(userID,bookID,borrowTime,returnTime,borrowID,returnState) values(?,?,?,?,?,?)";
+	// æ·»åŠ ä¸€ä¸ªBorrowInfoå€Ÿé˜…ä¿¡æ¯
+	public boolean createBorrowInfo(BorrowInfo borrowInfo) throws Exception{
+	
+		String CREATE_BorrowInfo_SQL = "insert into borrowInfo(userID,bookID,borrowTime,returnTime,returnState) values(?,?,?,?,?)";
 
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_BorrowInfo_SQL);
-			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
-			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
-			 */	
-			pStatement.setString(0, borrowInfo.getUserID());
-			pStatement.setString(1, borrowInfo.getBookID());
-			pStatement.setDate(2, (java.sql.Date) borrowInfo.getBorrowTime());
-			pStatement.setDate(3,(java.sql.Date) borrowInfo.getReturnTime());
-			pStatement.setString(4, borrowInfo.getBorrowID());
+			
+			pStatement.setString(1, borrowInfo.getUserID());
+			pStatement.setString(2, borrowInfo.getBookID());
+			pStatement.setDate(3, (java.sql.Date) borrowInfo.getBorrowTime());
+			pStatement.setDate(4,(java.sql.Date) borrowInfo.getReturnTime());
 			pStatement.setString(5, borrowInfo.getReturnState());
 			
-			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
-			 */
 			
-			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
-			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-					
+			return true;
 		}catch(Exception e) {
-			throw new DAOException();
+			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				throw new DAOException();
+				e.printStackTrace();
 			}
 		}
 	}	
 	
-	// É¾
-	// ¸ù¾ÝborrowIDÉ¾³ý½èÔÄÐÅÏ¢
-	public void deleteBorrowInfo(BorrowInfo borrowInfo) throws Exception{
-		// SQLÓï¾ä
+	
+	// æ ¹æ®borrowIDåˆ é™¤å€Ÿé˜…ä¿¡æ¯
+	public boolean deleteBorrowInfo(int borrowID) throws Exception{
+		
 		String DELETE_BorrowInfo_SQL = "delete from borrowInfo where borrowID=?";
 
 		Connection connection = null;
@@ -67,40 +58,29 @@ public class BorrowInfoDAO extends DAOBase
 		try {
 			connection = getConnection();
 		
-			// É¾³ýÖ¤¼þ
-			pStatement = connection.prepareStatement(DELETE_BorrowInfo_SQL);
-			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
-			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
-			 */	
-			pStatement.setString(0, borrowInfo.getBorrowID());
-			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
-			 */
 			
-			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
-			 */
+			pStatement = connection.prepareStatement(DELETE_BorrowInfo_SQL);
+			
+			pStatement.setInt(1, borrowID);
+			
 			pStatement.executeUpdate();
 			pStatement.close();
-					
+			return true;
 		}catch(Exception e) {
-			throw new DAOException();
+			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				throw new DAOException();
+				e.printStackTrace();
 			}
 		}
 	}
 		
-	// ¸Ä
-	public void updateBorrowInfo(BorrowInfo borrowInfo) throws Exception{
-		// SQLÓï¾ä
+	// æ ¹æ®borrowIDæ›´æ–°å€Ÿé˜…ä¿¡æ¯
+	public boolean updateBorrowInfo(BorrowInfo borrowInfo) throws Exception{
+		
 		String UPDATE_BorrowInfo_SQL = "update borrowInfo set returnTime=?,returnState=? where borrowID=?";
 
 		Connection connection = null;
@@ -108,41 +88,30 @@ public class BorrowInfoDAO extends DAOBase
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(UPDATE_BorrowInfo_SQL);
-			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
-			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
-			 */	
-			pStatement.setDate(0, (java.sql.Date)borrowInfo.getReturnTime());
-			pStatement.setString(1, borrowInfo.getReturnState());
-			pStatement.setString(2, borrowInfo.getBookID());
 			
-			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
-			 */
+			pStatement.setDate(1, (java.sql.Date)borrowInfo.getReturnTime());
+			pStatement.setString(2, borrowInfo.getReturnState());
+			pStatement.setInt(3, borrowInfo.getBorrowID());
 			
-			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
-			 */
+			
 			pStatement.executeUpdate();
 			pStatement.close();
-					
+			return true;
 		}catch(Exception e) {
-			throw new DAOException();
+			e.printStackTrace();
+			return false;
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				throw new DAOException();
+				e.printStackTrace();
 			}
 		}
 	}	
 
-	// ²é
-	public BorrowInfo queryBorrowInfo(String borrowID) throws Exception{
-		// SQLÓï¾ä
+	// æ ¹æ®borrowIDæŸ¥è¯¢ä¸€æ¡å€Ÿé˜…è®°å½•å¹¶ä¸”è¿”å›žä¸€æ¡å€Ÿé˜…ä¿¡æ¯
+	public BorrowInfo queryBorrowInfo(Integer borrowID) throws Exception{
+		
 		String QUERY_BorrowInfo_SQL = "select * from borrowInfo where borrowID=?";
 
 		Connection connection = null;
@@ -150,33 +119,36 @@ public class BorrowInfoDAO extends DAOBase
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BorrowInfo_SQL);
-			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö
-			 * prepare a statement to insert a record
-			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖÐ²åÈë²ÎÊý£¬ÐÎ³ÉÍêÕûµÄSQLÃüÁî
-			 */	
-			pStatement.setString(0, borrowID);
-			/*
-			 * ÐèÒªÊµÏÖµÄ²¿·Ö½áÊø
-			 */
+
 			
-			/*
-			 * ¹Ì¶¨¶¯×÷
-			 * µ÷ÓÃ¸üÐÂ·½·¨    executeUpdate()
-			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
-			 */
-			BorrowInfo borrowInfo = (BorrowInfo)pStatement.executeQuery();		
+			pStatement.setInt(1, borrowID);
+			
+			
+			ArrayList borrowArray=new ArrayList<BorrowInfo>();
+			ResultSet rs=pStatement.executeQuery();	
+			while(rs.next()){
+				BorrowInfo bi=new BorrowInfo();
+				bi.setBorrowID(rs.getInt("borrowID"));
+				bi.setBookID(rs.getString("bookID"));
+				bi.setBorrowTime(rs.getDate("borrowTime"));
+				bi.setReturnTime(rs.getDate("returnTime"));
+				bi.setUserID(rs.getString("userID"));
+				bi.setReturnState(rs.getString("returnState"));
+				borrowArray.add(bi);
+			}
+			BorrowInfo borrowInfo=(BorrowInfo) borrowArray.get(0);
 			pStatement.close();
 			
 			return borrowInfo;
 					
 		}catch(Exception e) {
-			throw new DAOException();
+			e.printStackTrace();
+			return null;
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				throw new DAOException();
+				e.printStackTrace();
 			}
 		}
 	}		

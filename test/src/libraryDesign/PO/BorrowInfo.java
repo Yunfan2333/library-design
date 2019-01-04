@@ -1,13 +1,14 @@
-package library.PO;
+package libraryDesign.PO;
 
 import java.util.Date;
 
 public class BorrowInfo {
-	public String userID;
+
+	public String userID; 
 	public String bookID;
 	public Date borrowTime;
 	public Date returnTime;
-	public String borrowID;
+	public Integer borrowID;
 	public String returnState;
 	public String getUserID() {
 		return userID;
@@ -33,10 +34,11 @@ public class BorrowInfo {
 	public void setReturnTime(Date returnTime) {
 		this.returnTime = returnTime;
 	}
-	public String getBorrowID() {
+	
+	public Integer getBorrowID() {
 		return borrowID;
 	}
-	public void setBorrowID(String borrowID) {
+	public void setBorrowID(Integer borrowID) {
 		this.borrowID = borrowID;
 	}
 	public String getReturnState() {
@@ -45,5 +47,6 @@ public class BorrowInfo {
 	public void setReturnState(String returnState) {
 		this.returnState = returnState;
 	}
+
 	
 }
