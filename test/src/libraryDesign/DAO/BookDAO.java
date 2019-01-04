@@ -1,17 +1,16 @@
-package libraryDesign.DAO;
+package library.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import libraryDesign.PO.*;
+import library.PO.*;
 
 public class BookDAO extends DAOBase {
 	
-	// æ·»åŠ ä¸€ç±»æ–°çš„ä¹¦ç±ï¼Œéœ€è¦å…ˆå»ºå¥½æ–‡çŒ®ç±»å‹è¡¨å’Œä¸­å›¾æ³•è¡¨ä¸€è¡¨äºŒ
-	public boolean createBook(Book book) throws Exception{
+	// Ôö£¬Ìí¼ÓÒ»ÀàÊé£¬Ã¿Ò»ÀàÓĞ¶à±¾¿â´æ
+	public void createBook(Book book) throws Exception{
+		// SQLÓï¾ä
 		String CREATE_BOOK_SQL = "insert into book(bookID,booktypeID,clcID1,clcID2,findID,bookName,authorName,isbn,price,info,stocknum) values(?,?,?,?,?,?,?,?,?,?,?)";
 
 		Connection connection = null;
@@ -19,38 +18,49 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_BOOK_SQL);
-			pStatement.setString(1, book.getBookID());
-			pStatement.setString(2, book.getBooktypeID());
-			pStatement.setString(3, book.getClcID1());
-			pStatement.setInt(4, book.getClcID2());
-			pStatement.setString(5, book.getFindID());
-			pStatement.setString(6, book.getBookName());
-			pStatement.setString(7, book.getAuthorName());
-			pStatement.setString(8, book.getIsbn());
-			pStatement.setFloat(9, book.getPrice());
-			pStatement.setString(10, book.getInfo());
-			pStatement.setInt(11, book.getStocknum());
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, book.getBookID());
+			pStatement.setString(1, book.getBooktypeID());
+			pStatement.setString(2, book.getClcID1());
+			pStatement.setInt(3, book.getClcID2());
+			pStatement.setString(4, book.getFindID());
+			pStatement.setString(5, book.getBookName());
+			pStatement.setString(6, book.getAuthorName());
+			pStatement.setString(7, book.getIsbn());
+			pStatement.setFloat(8, book.getPrice());
+			pStatement.setString(9, book.getInfo());
+			pStatement.setInt(10, book.getStocknum());
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			
-			return true;
 					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}	
 	
 	
-	// æ ¹æ®bookIDåˆ é™¤bookè¡¨ä¸­çš„ä¸€ç±»ä¹¦
-	public boolean deleteBook(String bookID) throws Exception{
+	// É¾£¬É¾³ıÒ»ÀàÊé
+	public void deleteBook(String bookID) throws Exception{
+		// SQLÓï¾ä
 		String DELETE_BOOK_SQL = "delete from book where bookID=?";
 
 		Connection connection = null;
@@ -58,92 +68,130 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(DELETE_BOOK_SQL);
-			pStatement.setString(1, bookID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, bookID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
+			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			return true;
 					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}		
 	
-	// æ ¹æ®bookIDæ›´æ–°åº“å­˜é‡ï¼Œåº“å­˜é‡åŠ ä¸€ï¼ˆé€‚ç”¨äºè¿˜ä¹¦æ—¶ï¼‰
-	public boolean addBook(String bookID) throws Exception{
-		// SQLï¿½ï¿½ï¿½
+	// ¸Ä£¬Ìí¼ÓÒ»±¾Êé£¬¿â´æÁ¿¼ÓÒ»
+	public void addBook(String bookID) throws Exception{
+		// SQLÓï¾ä
 		String ADD_BOOK_SQL = "update book set stocknum=? where bookID=?";
 
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 		try {
-			connection = getConnection();	 
-			Integer stocknum = queryBook(bookID).getStocknum() + 1;
+			connection = getConnection();
 			
+			// ÏÈ²éÑ¯£¬ÔÚ·µ»Ø½á¹ûÖĞÈ¡¿â´æÁ¿		 
+			Integer stocknum = queryBook(bookID).getStocknum()+1;
+			
+			// ¸üĞÂ¿â´æÁ¿
 			pStatement = connection.prepareStatement(ADD_BOOK_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setInt(0, stocknum);
+			pStatement.setString(1, bookID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setInt(1, stocknum);
-			pStatement.setString(2, bookID);
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
-			pStatement.close();		
-			return true;
+			pStatement.close();
 					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}		
 	
-	//æ ¹æ®bookIDï¼Œæ›´æ–°åº“å­˜é‡ï¼Œåº“å­˜é‡å‡ä¸€ï¼ˆé€‚ç”¨äºå€Ÿä¹¦æ—¶ï¼‰
-	public boolean removeBook(String bookID) throws Exception{
-		
+	// É¾£¬É¾³ıÒ»±¾Êé£¬±¾ÖÊÊÇ¸ü¸Ä¿â´æÁ¿Õâ¸öÊôĞÔ£¨Óë¸Ä¿â´æÁ¿µÄ²Ù×÷ºÏ²¢ÁË£©
+	// ¸Ä£¬¸ü¸Ä¿â´æÁ¿
+	public void removeBook(String bookID) throws Exception{
+		// SQLÓï¾ä
 		String REMOVE_BOOK_SQL = "update book set stocknum=? where bookID=?";
 
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 		try {
 			connection = getConnection();
-				 
-			Integer stocknum = queryBook(bookID).getStocknum() - 1;
 			
+			// ÏÈ²éÑ¯£¬ÔÚ·µ»Ø½á¹ûÖĞÈ¡¿â´æÁ¿		 
+			Integer stocknum = queryBook(bookID).getStocknum()-1;
+			
+			// ¸üĞÂ¿â´æÁ¿
 			pStatement = connection.prepareStatement(REMOVE_BOOK_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setInt(0, stocknum);
+			pStatement.setString(1, bookID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setInt(1, stocknum);
-			pStatement.setString(2, bookID);
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			return true;
 					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}		
 		
 	
-	// æ ¹æ®æ¡ç å·æŸ¥è¯¢æŸä¸€ç±»ä¹¦ï¼Œå¹¶è¿”å›Book book
+	// ²é£¬¸ù¾İÌõÂëºÅ²éÕÒÖ¸¶¨µÄÒ»ÀàÊé£¬·µ»ØÒ»ÀàÊé
 	public Book queryBook(String bookID) throws Exception{
-		
+		// SQLÓï¾ä
 		String QUERY_BOOK_SQL = "select * from book where bookID=?";
 
 		Connection connection = null;
@@ -151,48 +199,41 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOK_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, bookID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, bookID);
-			
-			ResultSet rs=pStatement.executeQuery();	
-			
-			Book book = new Book();
-			while(rs.next()) {
-				// To do
-				book.setBookID(rs.getString("bookID"));
-				book.setBooktypeID(rs.getString("booktypeID"));
-				book.setClcID1(rs.getString("clcID1"));
-				book.setClcID2(rs.getInt("clcID2"));
-				book.setFindID(rs.getString("findID"));
-				book.setBookName(rs.getString("bookName"));
-				book.setAuthorName(rs.getString("authorName"));
-				book.setIsbn(rs.getString("isbn"));
-				book.setPrice(rs.getFloat("price"));
-				book.setInfo(rs.getString("info"));
-				book.setStocknum(rs.getInt("stocknum"));				
-			}			
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			Book book = (Book)pStatement.executeQuery();	
 			pStatement.close();
 			
 			return book;
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
-				
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
-		return null;
 	}		
 	
 	
-	// æ ¹æ®æ–‡çŒ®ç±»å‹æŸ¥æ‰¾å¤šç§ä¹¦ï¼Œå¹¶è¿”å›List<Book>ç±»å‹çš„books
+	// ²é£¬¸ù¾İÎÄÏ×ÀàĞÍ²éÕÒ£¬·µ»Ø¶àÖÖÊé
 	public List<Book> queryBookByBooktypeID(String booktypeID) throws Exception{
-		
+		// SQLÓï¾ä
 		String QUERY_BOOKBYBOOKTYPEID_SQL = "select * from book where booktypeID=?";
 
 		Connection connection = null;
@@ -200,50 +241,41 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYBOOKTYPEID_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, booktypeID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, booktypeID);
-			
-			ResultSet rs = pStatement.executeQuery();	
-			ArrayList<Book> books = new ArrayList<Book>(); 
-
-			while(rs.next()) {
-				// To do
-				Book book = new Book();
-				book.setBookID(rs.getString("bookID"));
-				book.setBooktypeID(rs.getString("booktypeID"));
-				book.setClcID1(rs.getString("clcID1"));
-				book.setClcID2(rs.getInt("clcID2"));
-				book.setFindID(rs.getString("findID"));
-				book.setBookName(rs.getString("bookName"));
-				book.setAuthorName(rs.getString("authorName"));
-				book.setIsbn(rs.getString("isbn"));
-				book.setPrice(rs.getFloat("price"));
-				book.setInfo(rs.getString("info"));
-				book.setStocknum(rs.getInt("stocknum"));
-				
-				books.add(book);
-			}
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			List<Book> books = (List<Book>) pStatement.executeQuery();	
 			pStatement.close();
 			
 			return books;
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
-		return null;
 	}	
 	
 	
-	// æ ¹æ®ä¸­å›¾æ³•1æŸ¥æ‰¾å¤šç§ä¹¦ï¼Œå¹¶è¿”å›List<Book>ç±»å‹çš„books
+	// ²é£¬¸ù¾İÖĞÍ¼·¨·ÖÀà1²éÕÒ£¬·µ»Ø¶àÖÖÊé
 	public List<Book> queryBookByClcID1(String clcID1) throws Exception{
-		
+		// SQLÓï¾ä
 		String QUERY_BOOKBYCLCID1_SQL = "select * from book where clcID1=?";
 
 		Connection connection = null;
@@ -251,50 +283,41 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYCLCID1_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, clcID1);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, clcID1);
-			
-			ArrayList<Book> books = new ArrayList<Book>(); 
-			
-			ResultSet rs = pStatement.executeQuery();	
-			
-			while(rs.next()) {
-				// To do
-				Book book = new Book();
-				book.setBookID(rs.getString("bookID"));
-				book.setBooktypeID(rs.getString("booktypeID"));
-				book.setClcID1(rs.getString("clcID1"));
-				book.setClcID2(rs.getInt("clcID2"));
-				book.setFindID(rs.getString("findID"));
-				book.setBookName(rs.getString("bookName"));
-				book.setAuthorName(rs.getString("authorName"));
-				book.setIsbn(rs.getString("isbn"));
-				book.setPrice(rs.getFloat("price"));
-				book.setInfo(rs.getString("info"));
-				book.setStocknum(rs.getInt("stocknum"));
-				
-				books.add(book);
-			}
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			List<Book> books = (List<Book>) pStatement.executeQuery();	
 			pStatement.close();
 			
 			return books;
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
-		return null;
 	}		
 	
 	
-	// æ ¹æ®ä¸­å›¾æ³•2æŸ¥æ‰¾å¤šç§ä¹¦ï¼Œå¹¶è¿”å›List<Book>ç±»å‹çš„books
-	public List<Book> queryBookByClcID2(int i) throws Exception{
-		
+	// ²é£¬¸ù¾İÖĞÍ¼·¨·ÖÀà2²éÕÒ£¬·µ»Ø¶àÖÖÊé
+	public List<Book> queryBookByClcID2(String clcID2) throws Exception{
+		// SQLÓï¾ä
 		String QUERY_BOOKBYCLCID2_SQL = "select * from book where clcID2=?";
 
 		Connection connection = null;
@@ -302,50 +325,41 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYCLCID2_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, clcID2);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setInt(1, i);
-			
-			ArrayList<Book> books = new ArrayList<Book>(); 
-			ResultSet rs = pStatement.executeQuery();	
-			
-			while(rs.next()) {
-				// To do
-				Book book = new Book();
-				book.setBookID(rs.getString("bookID"));
-				book.setBooktypeID(rs.getString("booktypeID"));
-				book.setClcID1(rs.getString("clcID1"));
-				book.setClcID2(rs.getInt("clcID2"));
-				book.setFindID(rs.getString("findID"));
-				book.setBookName(rs.getString("bookName"));
-				book.setAuthorName(rs.getString("authorName"));
-				book.setIsbn(rs.getString("isbn"));
-				book.setPrice(rs.getFloat("price"));
-				book.setInfo(rs.getString("info"));
-				book.setStocknum(rs.getInt("stocknum"));
-				
-				books.add(book);
-			}			
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			List<Book> books = (List<Book>) pStatement.executeQuery();	
 			pStatement.close();
 			
 			return books;
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
-		return null;
 	}
 	
 	
-	// æ ¹æ®é¢˜åè¿›è¡Œæ¨¡ç³ŠæŸ¥è¯¢ï¼Œå¹¶è¿”å›ç¬¦åˆæ¡ä»¶çš„List<Book>ç±»å‹çš„books
+	// ²é£¬¸ù¾İÌâÃûÄ£ºı²éÑ¯£¬·µ»Ø¶àÖÖÊé
 	public List<Book> queryBookByBookName(String bookName) throws Exception{
-		
+		// SQLÓï¾ä
 		String QUERY_BOOKBYBOOKNAME_SQL = "select * from book where bookName like ?";
 
 		Connection connection = null;
@@ -353,50 +367,41 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYBOOKNAME_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, "%"+bookName+"%");
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, "%"+bookName+"%");
-			
-			List<Book> books = new ArrayList<Book>();
-			ResultSet rs = pStatement.executeQuery();	
-			
-			while(rs.next()) {
-				// To do
-				Book book = new Book();
-				book.setBookID(rs.getString("bookID"));
-				book.setBooktypeID(rs.getString("booktypeID"));
-				book.setClcID1(rs.getString("clcID1"));
-				book.setClcID2(rs.getInt("clcID2"));
-				book.setFindID(rs.getString("findID"));
-				book.setBookName(rs.getString("bookName"));
-				book.setAuthorName(rs.getString("authorName"));
-				book.setIsbn(rs.getString("isbn"));
-				book.setPrice(rs.getFloat("price"));
-				book.setInfo(rs.getString("info"));
-				book.setStocknum(rs.getInt("stocknum"));
-				
-				books.add(book);
-			}			
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			List<Book> books = (List<Book>) pStatement.executeQuery();	
 			pStatement.close();
 			
 			return books;
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
-		return null;
 	}	
 	
 	
-	// æ ¹æ®è´£ä»»è€…è¿›è¡Œæ¨¡ç³ŠæŸ¥è¯¢ï¼Œå¹¶è¿”å›ç¬¦åˆæ¡ä»¶çš„List<Book>ç±»å‹çš„books
+	// ²é£¬¸ù¾İÔğÈÎÕßÄ£ºı²éÑ¯£¬·µ»Ø¶àÖÖÊé	
 	public List<Book> queryBookByAuthorName(String authorName) throws Exception{
-		
+		// SQLÓï¾ä
 		String QUERY_BOOKBYAUTHORNAME_SQL = "select * from book where authorName like ?";
 
 		Connection connection = null;
@@ -404,49 +409,41 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYAUTHORNAME_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, "%" + authorName + "%");
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, "%" + authorName + "%");
-			
-			List<Book> books = new ArrayList<Book>();
-			ResultSet rs = pStatement.executeQuery();	
-			
-			while(rs.next()) {
-				// To do
-				Book book = new Book();
-				book.setBookID(rs.getString("bookID"));
-				book.setBooktypeID(rs.getString("booktypeID"));
-				book.setClcID1(rs.getString("clcID1"));
-				book.setClcID2(rs.getInt("clcID2"));
-				book.setFindID(rs.getString("findID"));
-				book.setBookName(rs.getString("bookName"));
-				book.setAuthorName(rs.getString("authorName"));
-				book.setIsbn(rs.getString("isbn"));
-				book.setPrice(rs.getFloat("price"));
-				book.setInfo(rs.getString("info"));
-				book.setStocknum(rs.getInt("stocknum"));
-				
-				books.add(book);
-			}	
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			List<Book> books = (List<Book>) pStatement.executeQuery();	
 			pStatement.close();
 			
 			return books;
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
-		return null;
 	}	
 	
 	
-	// æ ¹æ®å†…å®¹ç®€ä»‹è¿›è¡Œæ¨¡ç³ŠæŸ¥è¯¢ï¼Œå¹¶è¿”å›ç¬¦åˆæ¡ä»¶çš„List<Book>ç±»å‹çš„books
+	// ²é£¬¸ù¾İÄÚÈİ¼ò½é½øĞĞÄ£ºı²éÑ¯£¬·µ»Ø¶àÖÖÊé
 	public List<Book> queryBookByInfo(String info) throws Exception{
-		
+		// SQLÓï¾ä
 		String QUERY_BOOKBYINFO_SQL = "select * from book where info like ?";
 
 		Connection connection = null;
@@ -454,43 +451,35 @@ public class BookDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_BOOKBYINFO_SQL);
-				
-			pStatement.setString(1, "%" + info + "%");
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, "%" + info + "%");
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			List<Book> books = new ArrayList<Book>();
-			ResultSet rs = pStatement.executeQuery();	
-			
-			while(rs.next()) {
-				// To do
-				Book book = new Book();
-				book.setBookID(rs.getString("bookID"));
-				book.setBooktypeID(rs.getString("booktypeID"));
-				book.setClcID1(rs.getString("clcID1"));
-				book.setClcID2(rs.getInt("clcID2"));
-				book.setFindID(rs.getString("findID"));
-				book.setBookName(rs.getString("bookName"));
-				book.setAuthorName(rs.getString("authorName"));
-				book.setIsbn(rs.getString("isbn"));
-				book.setPrice(rs.getFloat("price"));
-				book.setInfo(rs.getString("info"));
-				book.setStocknum(rs.getInt("stocknum"));
-				
-				books.add(book);
-			}	
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			List<Book> books = (List<Book>) pStatement.executeQuery();	
 			pStatement.close();
 			
 			return books;
 			
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
-		return null;
 	}		
 
 }
