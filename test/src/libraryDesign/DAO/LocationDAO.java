@@ -1,19 +1,16 @@
-package libraryDesign.DAO;
+package library.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
-import libraryDesign.DAO.DAOBase;
-import libraryDesign.PO.*;
+import library.PO.Location;
 
 public class LocationDAO extends DAOBase {
 
-	//æ·»åŠ æ–°çš„ä½ç½®ä¿¡æ¯
-	public boolean createLocation(Location location) throws Exception{
-	
+	// Ôö£¬Ìí¼ÓÒ»¸öÎ»ÖÃ
+	public void createLocation(Location location) throws Exception{
+		// SQLÓï¾ä
 		String CREATE_LOCATION_SQL = "insert into location(findID,room,shelf,level) values(?,?,?,?)";
 
 		Connection connection = null;
@@ -21,93 +18,40 @@ public class LocationDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_LOCATION_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, location.getFindID());
+			pStatement.setString(1, location.getRoom());
+			pStatement.setInt(2, location.getShelf());
+			pStatement.setInt(3, location.getLevel());
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, location.getFindID());
-			pStatement.setString(2, location.getRoom());
-			pStatement.setInt(3, location.getShelf());
-			pStatement.setInt(4, location.getLevel());
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			return true;
+					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}	
 	
-	//æ ¹æ®findIDï¼Œç´¢ä¹¦å·ï¼Œåˆ é™¤ä¸€ä¸ªä½ç½®ä¿¡æ¯
-	public boolean deleteLocation(String findID) throws Exception{
-		
-		String DELETE_LOCATION_SQL = "delete from location where findID=?";
-
-		Connection connection = null;
-		PreparedStatement pStatement = null;
-		try {
-			connection = getConnection();
-			pStatement = connection.prepareStatement(DELETE_LOCATION_SQL);
-			
-			pStatement.setString(1, findID);
-			
-			pStatement.executeUpdate();
-			pStatement.close();
-			return true;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
-		}finally {
-			try {
-				connection.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	// É¾£¬É¾³ıÒ»¸öÎ»ÖÃ
 	
-	
-	//æ ¹æ®findIDï¼Œç´¢ä¹¦å·ï¼ŒæŸ¥è¯¢ä¸€ä¸ªä½ç½®å¹¶è¿”å›è¯¥ä½ç½®ä¿¡æ¯
-	public Location queryLocation(String findID) throws Exception{
-		
-		String QUERY_LOCATION_SQL = "select * from location where findID=?";
-
-		Connection connection = null;
-		PreparedStatement pStatement = null;
-		try {
-			connection = getConnection();
-			pStatement = connection.prepareStatement(QUERY_LOCATION_SQL);
-			
-			pStatement.setString(1, findID);
-			
-			//Location location = (Location) pStatement.executeQuery();
-			Location l=new Location();
-			ResultSet rs=pStatement.executeQuery();
-			while(rs.next())
-			{
-				l.setFindID(rs.getString("findID"));
-				l.setLevel(rs.getInt("level"));
-				l.setRoom(rs.getString("room"));
-				l.setShelf(rs.getInt("shelf"));
-			}
-			pStatement.close();
-			
-			return l;
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}finally {
-			try {
-				connection.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}	
+	// ²é£¬¸ù¾İË÷ÊéºÅ²éÑ¯Ò»¸öÎ»ÖÃ
 	
 }
