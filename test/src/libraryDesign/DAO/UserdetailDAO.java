@@ -1,15 +1,14 @@
-package libraryDesign.DAO;
+package library.DAO;
 
 import java.sql.*;
 
-import libraryDesign.PO.Userdetail;
+import library.PO.Userdetail;
 
 public class UserdetailDAO extends DAOBase {
 	
-	//æ·»åŠ æ–°çš„Userdetailï¼ˆè¯¦ç»†ä¿¡æ¯ï¼‰
-	//éœ€è¦å…ˆæœ‰ç™»é™†ä¿¡æ¯
-	public boolean createUserdetail(Userdetail userdetail) throws Exception{
-		
+	// Ôö
+	public void createUserdetail(Userdetail userdetail) throws Exception{
+		// SQLÓï¾ä
 		String CREATE_USERDETAIL_SQL = "insert into userdetail(userID,userName,docID,college,profession,sex,mail,loginID) values(?,?,?,?,?,?,?,?)";
 		
 		Connection connection = null;
@@ -17,114 +16,143 @@ public class UserdetailDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(CREATE_USERDETAIL_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, userdetail.getUserID());
+			pStatement.setString(1, userdetail.getUserName());
+			pStatement.setString(2, userdetail.getDocID());
+			pStatement.setString(3, userdetail.getCollege());
+			pStatement.setString(4, userdetail.getProfession());
+			pStatement.setString(5, userdetail.getSex());
+			pStatement.setString(6, userdetail.getMail());
+			pStatement.setString(7, userdetail.getLoginID());
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, userdetail.getUserID());
-			pStatement.setString(2, userdetail.getUserName());
-			pStatement.setString(3, userdetail.getDocID());
-			pStatement.setString(4, userdetail.getCollege());
-			pStatement.setString(5, userdetail.getProfession());
-			pStatement.setString(6, userdetail.getSex());
-			pStatement.setString(7, userdetail.getMail());
-			pStatement.setString(8, userdetail.getLoginID());
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			pStatement.executeUpdate();
 			pStatement.close();
-			return true;
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-			
-			try {
-				connection.close();
-				
-			}catch(SQLException ee) {
-				ee.printStackTrace();
-				
-			}
-			return false;
-		}
-	}
-	
-	//æ ¹æ®Userdetailåˆ é™¤userdetailè¡¨ä¸­å¯¹åº”çš„userdetailè¯¦ç»†ä¿¡æ¯
-	//éœ€è¦åŒæ—¶åˆ é™¤ç™»é™†ä¿¡æ¯
-	public boolean deleteUserdetail(Userdetail userdetail) throws Exception{
-
-		
-		String DELETE_USERDETAIL_SQL = "delete from userdetail where userID=?";
-		String DELETE_USER_SQL = "delete from userlogin where loginID=?";
-		
-		Connection connection = null;
-		PreparedStatement pStatement = null;
-		PreparedStatement pStatement0 = null;
-		try {
-			connection = getConnection();
-			pStatement = connection.prepareStatement(DELETE_USERDETAIL_SQL);
-			
-			pStatement.setString(1, userdetail.getUserID());
-			
-			pStatement.executeUpdate();
-			pStatement.close();
-			
-			
-			pStatement0 = connection.prepareStatement(DELETE_USER_SQL);
-			pStatement0.setString(1, userdetail.getLoginID());
-			pStatement0.executeUpdate();
-			pStatement0.close();
-			return true;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
-		}finally {
-			try {
-				connection.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	//æ ¹æ®userIDåˆ é™¤userdetailè¡¨ä¸­å¯¹åº”çš„userdetailè¯¦ç»†ä¿¡æ¯
-	//éœ€è¦åŒæ—¶åˆ é™¤ç™»é™†ä¿¡æ¯
-	public boolean deleteUserdetail(String userID) throws Exception{
-		
-		
-		String DELETE_USERDETAIL_SQL = "delete from userdetail where userID=?";
-		String DELETE_USER_SQL = "delete from userlogin where loginID=?";
-				
-		Connection connection = null;
-		PreparedStatement pStatement = null;
-		PreparedStatement pStatement0 = null;
-		try {
-			connection = getConnection();
-			pStatement = connection.prepareStatement(DELETE_USERDETAIL_SQL);
-			
-			pStatement.setString(1, userID);
-			
-			pStatement.executeUpdate();
-			pStatement.close();
-			
-			
-			Userdetail userdetail = queryUserdetail(userID);
-			pStatement0 = connection.prepareStatement(DELETE_USER_SQL);
-			pStatement0.setString(1, userdetail.getLoginID());
-			pStatement0.executeUpdate();			
-			return true;
 					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
+			}
+		}
+	}
+	
+	// É¾
+	// É¾³ıÓÃ»§ÏêÏ¸ĞÅÏ¢ºó²»Ó¦ÔÙ±£ÁôÓÃ»§µÇÂ½ĞÅÏ¢£¬Ò»ÆğÉ¾³ı
+	// ÏÈÉ¾³ıÏêÏ¸ĞÅÏ¢£¬ÔÙÉ¾³ıµÇÂ½ĞÅÏ¢
+	public void deleteUserdetail(Userdetail userdetail) throws Exception{
+
+		// SQLÓï¾ä
+		String DELETE_USERDETAIL_SQL = "delete from userdetail where userID=?";
+		String DELETE_USER_SQL = "delete from user where loginID=?";
+		
+		Connection connection = null;
+		PreparedStatement pStatement = null;
+		PreparedStatement pStatement0 = null;
+		try {
+			connection = getConnection();
+			pStatement = connection.prepareStatement(DELETE_USERDETAIL_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, userdetail.getUserID());
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
+			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			pStatement.executeUpdate();
+			pStatement.close();
+			
+			// É¾³ıµÇÂ½ĞÅÏ¢
+			pStatement0 = connection.prepareStatement(DELETE_USER_SQL);
+			pStatement0.setString(0, userdetail.getLoginID());
+			pStatement0.executeUpdate();
+			pStatement0.close();
+						
+		}catch(Exception e) {
+			throw new DAOException();
+		}finally {
+			try {
+				connection.close();
+			}catch(SQLException e) {
+				throw new DAOException();
+			}
+		}
+	}
+	
+	// ÖØÔØ£¬¸ù¾İÓÃ»§ÃûÉ¾³ıÓÃ»§ÏêÏ¸ĞÅÏ¢
+	public void deleteUserdetail(String userID) throws Exception{
+		
+		// SQLÓï¾ä
+		String DELETE_USERDETAIL_SQL = "delete from userdetail where userID=?";
+		String DELETE_USER_SQL = "delete from user where loginID=?";
+				
+		Connection connection = null;
+		PreparedStatement pStatement = null;
+		PreparedStatement pStatement0 = null;
+		try {
+			connection = getConnection();
+			pStatement = connection.prepareStatement(DELETE_USERDETAIL_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, userID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
+			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			pStatement.executeUpdate();
+			pStatement.close();
+			
+			// É¾³ıµÇÂ½ĞÅÏ¢
+			Userdetail userdetail = queryUserdetail(userID);
+			pStatement0 = connection.prepareStatement(DELETE_USER_SQL);
+			pStatement0.setString(0, userdetail.getLoginID());
+			pStatement0.executeUpdate();			
+					
+		}catch(Exception e) {
+			throw new DAOException();
+		}finally {
+			try {
+				connection.close();
+			}catch(SQLException e) {
+				throw new DAOException();
 			}
 		}
 	}
 	
 	
-	//æ›´æ–°userdetailè¡¨ï¼Œæ ¹æ®userIDæ›´æ–°å…¶ä»–ä¿¡æ¯
-	public boolean updateUserdetail(Userdetail userdetail) throws Exception{
+	// ¸Ä
+	public Userdetail updateUserdetail(Userdetail userdetail) throws Exception{
 
 		// SQL
 		String UPDATE_USERDETAIL_SQL = "update userdetail set userName=?,docID=?,college=?,profession=?,sex=?,mail=?,loginID=? where userID=?";
@@ -134,35 +162,47 @@ public class UserdetailDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(UPDATE_USERDETAIL_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, userdetail.getUserName());
+			pStatement.setString(1, userdetail.getDocID());
+			pStatement.setString(2, userdetail.getCollege());
+			pStatement.setString(3, userdetail.getProfession());
+			pStatement.setString(4, userdetail.getSex());
+			pStatement.setString(5, userdetail.getMail());
+			pStatement.setString(6, userdetail.getLoginID());			
+			pStatement.setString(7, userdetail.getUserID());
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, userdetail.getUserName());
-			pStatement.setString(2, userdetail.getDocID());
-			pStatement.setString(3, userdetail.getCollege());
-			pStatement.setString(4, userdetail.getProfession());
-			pStatement.setString(5, userdetail.getSex());
-			pStatement.setString(6, userdetail.getMail());
-			pStatement.setString(7, userdetail.getLoginID());			
-			pStatement.setString(8, userdetail.getUserID());
-			
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
 			
 			pStatement.executeUpdate();
 			pStatement.close();
 			
-			return true;
+			return userdetail;
 					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}		
 	
-	// æ ¹æ®userIDè¿›è¡ŒæŸ¥è¯¢ï¼Œå¹¶è¿”å›æŸ¥è¯¢åˆ°çš„userdetailçš„ç»“æœ
+	// ²é
+	// ¸ù¾İÓÃ»§Ãû½øĞĞ²éÑ¯²¢·µ»Ø²éÑ¯µ½µÄUserdetail
 	public Userdetail queryUserdetail(String userID) throws Exception{
 
 		// SQL
@@ -173,36 +213,34 @@ public class UserdetailDAO extends DAOBase {
 		try {
 			connection = getConnection();
 			pStatement = connection.prepareStatement(QUERY_USERDETAIL_SQL);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö
+			 * prepare a statement to insert a record
+			 * Ïò¸Õ²Å×¼±¸µÄÄ£°åSQLÓï¾äÖĞ²åÈë²ÎÊı£¬ĞÎ³ÉÍêÕûµÄSQLÃüÁî
+			 */	
+			pStatement.setString(0, userID);
+			/*
+			 * ĞèÒªÊµÏÖµÄ²¿·Ö½áÊø
+			 */
 			
-			pStatement.setString(1, userID);
-			
-			//Userdetail userdetail = (Userdetail)pStatement.executeQuery();
-			Userdetail u = new Userdetail();
-			ResultSet rs=pStatement.executeQuery();
-			while(rs.next())
-			{
-				u.setCollege(rs.getString("college"));
-				u.setDocID(rs.getString("docID"));
-				u.setLoginID(rs.getString("loginID"));
-				u.setMail(rs.getString("mail"));
-				u.setProfession(rs.getString("profession"));
-				u.setSex(rs.getString("sex"));
-				u.setUserID(rs.getString("userID"));
-				u.setUserName(rs.getString("userName"));
-			}
+			/*
+			 * ¹Ì¶¨¶¯×÷
+			 * µ÷ÓÃ¸üĞÂ·½·¨    executeUpdate()
+			 * ¹Ø±ÕÁ¬½Ó    pStatement.close()
+			 */
+			Userdetail userdetail = (Userdetail)pStatement.executeQuery();
 
 			pStatement.close();
 			
-			return u;
+			return userdetail;
 					
 		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
+			throw new DAOException();
 		}finally {
 			try {
 				connection.close();
 			}catch(SQLException e) {
-				e.printStackTrace();
+				throw new DAOException();
 			}
 		}
 	}	
